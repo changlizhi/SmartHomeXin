@@ -235,6 +235,7 @@ int AlarmInit(void)
         }
         else
         {
+            PrintLog(0,"clztest--------AlarmInit---read failed!\n");
             DebugPrint(0, "AlarmInit fail, ");
         }
     }
