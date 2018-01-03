@@ -848,10 +848,13 @@ static int Kaishizhendong()
 static void *GengxinBofangShijian(void *arg)
 {
     while(1){
+        bool bofang = (currentButtonState == 1);
         PrintLog(0,"GengxinBofangShijian---currentButtonState---%d\n",currentButtonState);
-        if(currentButtonState == 1)//如果是播放状态
+        PrintLog(0,"GengxinBofangShijian---bofang---%d\n",bofang);
+        if(bofang)//如果是播放状态
         {
             UpdateAlarm(GetCurrentAlarm());//更新播放时间
+            PrintLog(0,"GengxinBofangShijian---up---%d\n");
         }
         Sleep(600);//每6秒监测一次
     }
