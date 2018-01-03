@@ -853,23 +853,23 @@ static void *GengxinBofangShijian(void *arg)
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
         {
-            char snstr[100];
-            const char *snvarname="sn";
-            getuciConfigvar(snvarname,snstr);
-            PrintLog(0,"sn--------:%s\n",snstr);
-
             time_t t;
             t=time(0);//当前时间秒数
-            char *dangqianshijian="";
-            ultoa(t,dangqianshijian,t);
+            char dangqianshijian[100]={0};
+            sprintf(dangqianshijian,"%ld",t);
             PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
+            char needstr[100];
+
+            const char *snvarname="sn";
+            getuciConfigvar(snvarname,needstr);
+            PrintLog(0,"sn---needstr---:%s\n",needstr);
+
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
-//            const char * kaishishijian="kaishishijian";
+            const char * kaishishijian="kaishishijian";
 //            setuciConfigvar(kaishishijian,dangqianshijian);
-//            char huoqukaishishijian[100];
-//            getuciConfigvar(kaishishijian,huoqukaishishijian);
-//            PrintLog(0,"huoqukaishishijian---:%s\n",huoqukaishishijian);
+            getuciConfigvar(kaishishijian,needstr);
+            PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
 //
 //            const char * jieshushijian="jieshushijian";
 //            setuciConfigvar(jieshushijian,dangqianshijian);
@@ -1062,8 +1062,8 @@ int MonitorTaskInit(void)
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
-//    SysCreateTask(Bofangzanting, NULL);//播放暂停功能
-//    SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
+    SysCreateTask(Bofangzanting, NULL);//播放暂停功能
+    SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
