@@ -856,8 +856,7 @@ static void *GengxinBofangShijian(void *arg)
             const char *snvarname="sn";
             const char *kaishishijian="kaishishijian";
             const char *jieshushijian="jieshushijian";
-            char dangqianshijiancmd[512]={0};
-            char needstr[100];
+            char dangqianshijiancmd[256]={0};
 
             time_t t;
             t=time(0);//当前时间秒数
@@ -866,19 +865,19 @@ static void *GengxinBofangShijian(void *arg)
             PrintLog(0,"dangqianshijiancmd---shuzi:%ld,dangqianshijiancmd---zifu:%s\n",t,dangqianshijiancmd);
 
 
-            getuciConfigvar(snvarname,needstr);
-            PrintLog(0,"sn---needstr---:%s\n",needstr);
+            getuciConfigvar(snvarname,dangqianshijiancmd);
+            PrintLog(0,"sn---dangqianshijiancmd---:%s\n",dangqianshijiancmd);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
             setuciConfigvar(kaishishijian,dangqianshijiancmd);
-            getuciConfigvar(kaishishijian,needstr);
-            PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
+            getuciConfigvar(kaishishijian,dangqianshijiancmd);
+            PrintLog(0,"huoqukaishishijian---dangqianshijiancmd---:%s\n",dangqianshijiancmd);
 
             setuciConfigvar(jieshushijian,dangqianshijiancmd);
-            getuciConfigvar(jieshushijian,needstr);
-            PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
+            getuciConfigvar(jieshushijian,dangqianshijiancmd);
+            PrintLog(0,"huoqujieshushijian---:%s\n",t,dangqianshijiancmd);
 
-            memset(dangqianshijiancmd,0,512);
+            memset(dangqianshijiancmd,0,256);
             sprintf(dangqianshijiancmd,"uci -c/opt/ft commit");
             system(dangqianshijiancmd);
         }
