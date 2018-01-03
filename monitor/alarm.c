@@ -76,12 +76,12 @@ void UpdateAlarm(alarm_buf_t *pbuf)
     if(SaveBinFile(filename, ALARM_MAGIC, (unsigned char *)&pbase[idxbase], sizeof(alarm_buf_t)*ALMNUM_PERFILE)==0)
     {
         PrintLog(0,"clztest--------UpdateAlarm---success!\n");
-        PrintLog(0 ,"UpdateAlarm  idxbase is: %d start time is: %s current time is %s  save successed\n",
-        idxbase,UTimeFormat(pbuf->starttime),UTimeFormat(pbuf->endtime));
+        PrintLog(0,"idxbase==%d,pbuf.starttime==%d,pbuf.endtime==%d\n",idxbase,pbuf->starttime,pbuf->endtime);
     }
     else
     {
         DebugPrint(0 ,"save failed\n");
+        PrintLog(0,"clztest--------UpdateAlarm---failed!\n");
     }
 
     UnlockSysLock(LockIdAlarm);
@@ -109,6 +109,7 @@ void SaveAlarm(alarm_buf_t *pbuf)
     if(SaveBinFile(filename, ALARM_MAGIC, (unsigned char *)&pbase[idxbase], sizeof(alarm_buf_t)*ALMNUM_PERFILE)==0)
     {
         DebugPrint(0 ,"idxbase is: %d start time is: %s current time is %s  save successed\n",idxbase,UTimeFormat(pbuf->starttime),UTimeFormat(pbuf->endtime));
+        PrintLog(0,"SaveAlarm---------pbuf.starttime==%d,pbuf.endtime==%d\n",pbuf->starttime,pbuf->endtime);
     }
     else
     {
@@ -200,6 +201,7 @@ void MakeAlarmG( alarm_buf_t *pbuf)
     RunStateG.alarm.playstate = 1;
     pbuf->starttime = UTimeReadCurrent();
     pbuf->endtime = UTimeReadCurrent();
+    PrintLog(0,"MakeAlarmG---------pbuf.starttime==%d,pbuf.endtime==%d\n",pbuf->starttime,pbuf->endtime);
     DebugPrint(0, "cur(%d) == head(%d)\n",RunStateG.alarm.cur,RunStateG.alarm.head);
     SaveRunState();
 
