@@ -901,6 +901,148 @@ static void *BofangYinpin(void *arg)
     }
     return 0;
 }
+
+
+static void *Bofangzanting(void *arg)
+{
+    static int presstimes = 0;
+    unsigned int value = 0;
+    int  playstate = 0;
+    gpio_export(GPIO_PLAY);
+    gpio_set_dir(GPIO_PLAY, 0);
+    gpio_set_edge(GPIO_PLAY, "rising");
+
+    currentButtonState  = 0;
+    while (1) {
+        gpio_get_value(GPIO_PLAY,&value);
+        if(value == 0 )
+        {
+            presstimes++;
+        }
+        else if(value == 1)
+        {
+            if(presstimes>5)
+            {
+
+                PrintLog(0,"currentButtonState=======%d \n",currentButtonState);
+                if(currentButtonState == 0)
+                {
+                    playstate = Kaishizhendong();
+                    if(playstate == 0)
+                    {
+                        //SaveAlarm(GetCurrentAlarm());//开始记录播放大小这里应该是循环更新时间，因为初始有一个时间了
+                        currentButtonState = 1;
+                        PrintLog(0,"bofangzhong jilu daxiao...\n");
+                    }
+                }
+                else if(currentButtonState == 1)
+                {
+                    PrintLog(0,"guanbi yinpin...\n");
+                    system("killall -9 madplay");
+                    PrintLog(0,"guanbi yinpin chenggong...\n");
+                    //SaveAlarm(GetCurrentAlarm());//记录播放时间
+                    currentButtonState = 0;
+                }
+                presstimes = 0;
+            }
+        }
+        Sleep(1);
+        if(exitflag)
+        {
+            break;
+        }
+    }
+    return 0;
+}
+
+//监测音量按键按下事件
+static void *Yinliangzengjian(void *arg)
+{
+    static int pressaddtimes = 0;
+    static int presssubtimes = 0;
+    static int currentVolume = 9;
+    unsigned char VolumeLevel[10]={0};
+    VolumeLevel[0] = 0;
+    VolumeLevel[1] = 40;
+    VolumeLevel[2] = 70;
+    VolumeLevel[3] = 80;
+    VolumeLevel[4] = 90;
+    VolumeLevel[5] = 100;
+    VolumeLevel[6] = 110;
+    VolumeLevel[7] = 120;
+    VolumeLevel[8] = 124;
+    VolumeLevel[9] = 127;
+    char   cmd[100];
+    int gpio_fdadd;
+    int gpio_fdsub;
+
+    unsigned int value = 0;
+
+    gpio_export(GPIO_KEY_ADD);
+    gpio_set_dir(GPIO_KEY_ADD, 0);
+    gpio_set_edge(GPIO_KEY_ADD, "rising");
+    gpio_fdadd = gpio_fd_open(GPIO_KEY_ADD);
+
+    gpio_export(GPIO_KEY_SUB);
+    gpio_set_dir(GPIO_KEY_SUB, 0);
+    gpio_set_edge(GPIO_KEY_SUB, "rising");
+    gpio_fdsub = gpio_fd_open(GPIO_KEY_SUB);
+
+    PrintLog(0,"dangqian yinliang is %d...\n",VolumeLevel[currentVolume]);
+
+    while (1) {
+        gpio_get_value(GPIO_KEY_ADD,&value);
+        if(value == 0 )//按下
+        {
+            pressaddtimes++;
+        }
+        else if(value == 1)
+        {
+            if(pressaddtimes>5)//消抖
+            {
+                if(currentVolume<9)
+                    currentVolume++;
+
+                PrintLog(0,"vol++ dangqian yinliang %d...\n",VolumeLevel[currentVolume]);
+                memset(cmd,0,100);
+                sprintf(cmd,"amixer cset numid=9,iface=MIXER,name=\'Headphone Playback Volume\' %d",VolumeLevel[currentVolume]);
+                system(cmd);
+                pressaddtimes = 0;
+            }
+        }
+
+        gpio_get_value(GPIO_KEY_SUB,&value);
+        if(value == 0 )//按下
+        {
+            presssubtimes++;
+        }
+        else if(value == 1)
+        {
+            if(presssubtimes > 5)//消抖
+            {
+
+                if(currentVolume > 3)//最小音量不能小于3，否则振动就非常小了
+                    currentVolume--;
+                PrintLog(0,"vol-- dangqian yinliang %d...\n",VolumeLevel[currentVolume]);
+                memset(cmd,0,100);
+                sprintf(cmd,"amixer cset numid=9,iface=MIXER,name=\'Headphone Playback Volume\' %d",VolumeLevel[currentVolume]);
+                system(cmd);
+                presssubtimes = 0;
+            }
+        }
+        Sleep(1);
+        if(exitflag)
+        {
+          gpio_fd_close(gpio_fdadd);
+          gpio_fd_close(gpio_fdsub);
+          break;
+        }
+    }
+    gpio_fd_close(gpio_fdadd);
+    gpio_fd_close(gpio_fdsub);
+    return 0;
+}
+
 DECLARE_INIT_FUNC(MonitorTaskInit);
 int MonitorTaskInit(void)
 {
@@ -910,6 +1052,8 @@ int MonitorTaskInit(void)
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
+    SysCreateTask(Bofangzanting, NULL);//播放暂停功能
+    SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
