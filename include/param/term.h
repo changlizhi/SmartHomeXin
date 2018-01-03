@@ -52,7 +52,8 @@ para_manuf_t ParaManuf;
 
 extern int PasswdLevel;
 extern int Autlevel;
-
+int  getuciConfigvar(const char *varname, char *buffer);
+int  setuciConfigvar(const char *varname, char *buffer);
 typedef union {
     struct {
         unsigned char chn;  //通道类型

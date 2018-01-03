@@ -257,6 +257,8 @@ unsigned char wifi_update_system_state=0;
 * @brief 校准系统时钟
 */
 
+extern int  getuciConfigvar(const char *varname, char *buffer);
+extern int  setuciConfigvar(const char *varname, char *buffer);
 extern void MakeAlarmG(alarm_buf_t *pbuf);
 extern void SaveAlarm(alarm_buf_t *pbuf);
 extern void UpdateAlarm(alarm_buf_t *pbuf);
@@ -847,15 +849,17 @@ static int Kaishizhendong()
 //更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
 static void *GengxinBofangShijian(void *arg)
 {
-    MakeAlarmG(GetCurrentAlarm());//每次启动都创建
     while(1){
         int bofang = (currentButtonState == 1);
-        PrintLog(0,"GengxinBofangShijian---currentButtonState---%d\n",currentButtonState);
-        PrintLog(0,"GengxinBofangShijian---bofang---%d\n",bofang);
         if(bofang)//如果是播放状态
         {
-            UpdateAlarm(GetCurrentAlarm());//更新播放时间
-            PrintLog(0,"GengxinBofangShijian---up\n");
+            char str[100];
+            const char *varname="sn";
+            getuciConfigvar(varname,str);
+            PrintLog(0,"sn--------:%s\n",str);
+            time_t t;
+            t=time(0);//当前时间秒数
+            PrintLog(0,"dangqian shijian-----:%ld\n",t);
         }
         Sleep(600);//每6秒监测一次
     }
@@ -863,7 +867,6 @@ static void *GengxinBofangShijian(void *arg)
 }
 
 
-//监测uci
 static void *BofangYinpin(void *arg)
 {
     gpio_export(GPIO_PLAY);
@@ -906,9 +909,8 @@ int MonitorTaskInit(void)
     currentButtonState=0;
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
-
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
-    AlarmInit();//初始化时间文件
+    //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
 //    SysCreateTask(DownLoadMusicTask_Monitor, NULL);//音乐下载，内部有协议通信方法
