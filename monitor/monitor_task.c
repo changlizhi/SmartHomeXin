@@ -355,7 +355,7 @@ static void *UpdateAlarmTask_Monitor(void *arg)
         if(currentButtonState == 1)//如果是播放按键为按下
         {
             times++;
-            if(times >= 30)
+            if(times >= 6)
             {
                 PrintLog(0,"UpdateAlarmTask_Monitor");
                 UpdateAlarm(GetCurrentAlarm());//更新播放时间
@@ -802,20 +802,124 @@ static void *VolumeBtn_Pressdown(void *arg)
     return 0;
 }
 
+static int Yinpinguoqi(char *lujing){
+    PrintLog(0,"lujing-----%s\n",lujing);
+    time_t t;
+    t=time(0);//当前时间秒数
 
+    PrintLog(0,"dangqian shijian-----%ld\n",t);
+    struct stat buf;
+    int result;
+
+    //获得文件状态信息
+
+    result =stat(lujing, &buf );
+
+    //显示文件状态信息
+
+    if( result != 0 ){
+        PrintLog(0,"wenjian chucuo" );//并提示出错的原因，如No such file or directory（无此文件或索引）
+    }
+    else
+    {
+        PrintLog(0,"wenjian daxiao: %d\n", buf.st_size);
+        PrintLog(0,"chuangjian shijian : %s\n", ctime(&buf.st_ctime));
+        PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
+        PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
+
+    }
+}
+
+static int Kaishizhendong()
+{
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    //音频有效，则循环播放音频文件
+    sprintf(cmd,"madplay /tmp/mounts/SD-P1/play/shock.mp3 -r &");
+    system(cmd);
+    Sleep(50);
+    //切换音频播放开关
+    gpio_set_value(GPIO_39,0);
+    gpio_set_value(GPIO_42,0);
+    currentButtonState = 1;
+    return 0;
+}
+//更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
+static void *GengxinBofangShijian(void *arg)
+{
+    static int times = 0;
+    while(1){//每秒监测一次
+        PrintLog(0,"GengxinBofangShijian---currentButtonState---%s\n",currentButtonState);
+        if(currentButtonState == 1)//如果是播放状态
+        {
+            times++;
+            if(times >= 6)
+            {
+                UpdateAlarm(GetCurrentAlarm());//更新播放时间
+                times = 0;
+            }
+        }
+        else if(currentButtonState == 0 ||currentButtonState == -1)
+        {
+            times = 0;
+        }
+        Sleep(100);
+    }
+    return 0;
+}
+
+
+//监测uci
+static void *BofangYinpin(void *arg)
+{
+    gpio_export(GPIO_PLAY);
+    gpio_set_dir(GPIO_PLAY, 0);
+    gpio_set_edge(GPIO_PLAY, "rising");
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    while (1) {
+        char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
+        if(access(lujing,F_OK)==0){
+
+            Yinpinguoqi(lujing);
+            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/2.wav  &");
+            system(cmd);
+            Sleep(600);
+            gpio_set_value(GPIO_39,1);
+            gpio_set_value(GPIO_42,1);
+            Sleep(600);
+            Kaishizhendong();
+            break;
+        }
+        else
+        {
+            //无音频文件，播放提示音
+            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/1.wav  &");
+            system(cmd);
+            Sleep(600);
+            gpio_set_value(GPIO_39,1);
+            gpio_set_value(GPIO_42,1);
+        }
+        Sleep(600);
+    }
+    return 0;
+}
 DECLARE_INIT_FUNC(MonitorTaskInit);
 int MonitorTaskInit(void)
 {
 
     RunStateInit();
-    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
-    AlarmInit();
-    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
-    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
-    SysCreateTask(DownLoadMusicTask_Monitor, NULL);//音乐下载，内部有协议通信方法
-    SysCreateTask(NetLedTask_Monitor, NULL);
-    SysCreateTask(SysLedTask_Monitor, NULL);
-    SysCreateTask(VolumeBtn_Pressdown, NULL);
+//    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
+    SysCreateTask(BofangYinpin, NULL);//播放音频的任务
+    MakeAlarmG(GetCurrentAlarm());//每次启动都创建
+    AlarmInit();//初始化时间文件
+    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
+//    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
+//    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
+//    SysCreateTask(DownLoadMusicTask_Monitor, NULL);//音乐下载，内部有协议通信方法
+//    SysCreateTask(NetLedTask_Monitor, NULL);
+//    SysCreateTask(SysLedTask_Monitor, NULL);
+//    SysCreateTask(VolumeBtn_Pressdown, NULL);
     SET_INIT_FLAG(MonitorTaskInit);
     return 0;
 }
