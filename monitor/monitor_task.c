@@ -848,7 +848,7 @@ static int Kaishizhendong()
 static void *GengxinBofangShijian(void *arg)
 {
     while(1){
-        bool bofang = (currentButtonState == 1);
+        int bofang = (currentButtonState == 1);
         PrintLog(0,"GengxinBofangShijian---currentButtonState---%d\n",currentButtonState);
         PrintLog(0,"GengxinBofangShijian---bofang---%d\n",bofang);
         if(bofang)//如果是播放状态
