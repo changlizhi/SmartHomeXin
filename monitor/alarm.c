@@ -227,7 +227,9 @@ int AlarmInit(void)
         DebugPrint(0, "i%d", offset/ALMNUM_PERFILE);
         if(ReadBinFile(filename, ALARM_MAGIC, (unsigned char *)pbuf, sizeof(alarm_buf_t)*ALMNUM_PERFILE) > 0)
         {
-            DebugPrint(0, "AlarmInit ok, ");
+            PrintLog(0,"clztest--------UpdateAlarm---success!\n");
+            PrintLog(0 ,"idxbase is: %d start time is: %s current time is %s  save successed\n",
+            idxbase,UTimeFormat(pbuf->starttime),UTimeFormat(pbuf->endtime));
         }
         else
         {
