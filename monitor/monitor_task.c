@@ -856,7 +856,7 @@ static void *GengxinBofangShijian(void *arg)
             const char *snvarname="sn";
             const char *kaishishijian="kaishishijian";
             const char *jieshushijian="jieshushijian";
-            char dangqianshijian[100]={0};
+            char dangqianshijiancmd[512]={0};
             char needstr[100];
 
             time_t t;
@@ -878,10 +878,9 @@ static void *GengxinBofangShijian(void *arg)
             getuciConfigvar(jieshushijian,needstr);
             PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
 
-            char cmd[512] = {0};
-            memset(cmd,0,512);
-            sprintf(cmd,"uci -c/opt/ft commit");
-            system(cmd);
+            memset(dangqianshijiancmd,0,512);
+            sprintf(dangqianshijiancmd,"uci -c/opt/ft commit");
+            system(dangqianshijiancmd);
         }
         Sleep(600);//每6秒监测一次
     }
