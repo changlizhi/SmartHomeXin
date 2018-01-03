@@ -860,20 +860,20 @@ static void *GengxinBofangShijian(void *arg)
 
             time_t t;
             t=time(0);//当前时间秒数
-            char dangqianshijian[20]={0};
+            char dangqianshijian[100]={0};
             sprintf(dangqianshijian,"%ld",t);
             PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
             const char * kaishishijian="kaishishijian";
             setuciConfigvar(kaishishijian,dangqianshijian);
-            char huoqukaishishijian[100];
+            char huoqukaishishijian[1024];
             getuciConfigvar(kaishishijian,huoqukaishishijian);
             PrintLog(0,"huoqukaishishijian---:%s\n",huoqukaishishijian);
 
             const char * jieshushijian="jieshushijian";
             setuciConfigvar(jieshushijian,dangqianshijian);
-            char huoqujieshushijian[100];
+            char huoqujieshushijian[1024];
             getuciConfigvar(jieshushijian,huoqujieshushijian);
             PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
 
