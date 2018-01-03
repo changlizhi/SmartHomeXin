@@ -862,19 +862,19 @@ static void *GengxinBofangShijian(void *arg)
             time_t t;
             t=time(0);//当前时间秒数
 
-            sprintf(dangqianshijian,"%ld",t);
-            PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
+            sprintf(dangqianshijiancmd,"%ld",t);
+            PrintLog(0,"dangqianshijiancmd---shuzi:%ld,dangqianshijiancmd---zifu:%s\n",t,dangqianshijiancmd);
 
 
             getuciConfigvar(snvarname,needstr);
             PrintLog(0,"sn---needstr---:%s\n",needstr);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
-            setuciConfigvar(kaishishijian,dangqianshijian);
+            setuciConfigvar(kaishishijian,dangqianshijiancmd);
             getuciConfigvar(kaishishijian,needstr);
             PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
 
-            setuciConfigvar(jieshushijian,dangqianshijian);
+            setuciConfigvar(jieshushijian,dangqianshijiancmd);
             getuciConfigvar(jieshushijian,needstr);
             PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
 
