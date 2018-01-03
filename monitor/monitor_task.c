@@ -853,13 +853,30 @@ static void *GengxinBofangShijian(void *arg)
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
         {
-            char str[100];
-            const char *varname="sn";
-            getuciConfigvar(varname,str);
+            char snstr[100];
+            const char *snvarname="sn";
+            getuciConfigvar(snvarname,snstr);
             PrintLog(0,"sn--------:%s\n",str);
+
             time_t t;
             t=time(0);//当前时间秒数
-            PrintLog(0,"dangqian shijian-----:%ld\n",t);
+            char dangqianshijian[20]={0};
+            sprintf(dangqianshijian,"%ld",t);
+            PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
+
+            //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
+            const char * kaishishijian="kaishishijian"
+            setuciConfigvar(kaishishijian,dangqianshijian);
+            char huoqukaishishijian[100];
+            getuciConfigvar(kaishishijian,huoqukaishishijian);
+            PrintLog(0,"huoqukaishishijian---:%s\n",huoqukaishishijian);
+
+            const char * jieshushijian="jieshushijian"
+            setuciConfigvar(jieshushijian,dangqianshijian);
+            char huoqujieshushijian[100];
+            getuciConfigvar(jieshushijian,huoqujieshushijian);
+            PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
+
         }
         Sleep(600);//每6秒监测一次
     }
@@ -907,7 +924,6 @@ static void *Bofangzanting(void *arg)
 {
     static int presstimes = 0;
     unsigned int value = 0;
-    int  playstate = 0;
     gpio_export(GPIO_PLAY);
     gpio_set_dir(GPIO_PLAY, 0);
     gpio_set_edge(GPIO_PLAY, "rising");
@@ -927,20 +943,14 @@ static void *Bofangzanting(void *arg)
                 PrintLog(0,"currentButtonState=======%d \n",currentButtonState);
                 if(currentButtonState == 0)
                 {
-                    playstate = Kaishizhendong();
-                    if(playstate == 0)
-                    {
-                        //SaveAlarm(GetCurrentAlarm());//开始记录播放大小这里应该是循环更新时间，因为初始有一个时间了
-                        currentButtonState = 1;
-                        PrintLog(0,"bofangzhong jilu daxiao...\n");
-                    }
+                    Kaishizhendong();
+                    PrintLog(0,"bofangzhong jilu daxiao...\n");
                 }
                 else if(currentButtonState == 1)
                 {
                     PrintLog(0,"guanbi yinpin...\n");
                     system("killall -9 madplay");
                     PrintLog(0,"guanbi yinpin chenggong...\n");
-                    //SaveAlarm(GetCurrentAlarm());//记录播放时间
                     currentButtonState = 0;
                 }
                 presstimes = 0;
