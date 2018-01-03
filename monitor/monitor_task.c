@@ -877,8 +877,8 @@ static void *GengxinBofangShijian(void *arg)
 //            getuciConfigvar(jieshushijian,huoqujieshushijian);
 //            PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
 
-//            sprintf(dangqianshijian,"uci -c/opt/ft commit");
-//            system(dangqianshijian);
+            sprintf(dangqianshijian,"uci -c/opt/ft commit");
+            system(dangqianshijian);
         }
         Sleep(600);//每6秒监测一次
     }
