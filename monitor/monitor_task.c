@@ -851,17 +851,19 @@ static void *GengxinBofangShijian(void *arg)
 {
     char cmd[512] = {0};
     memset(cmd,0,512);
-    char dangqianshijian[100]={0};
-    char needstr[100];
-    const char *snvarname="sn";
-    const char *kaishishijian="kaishishijian";
-    const char *jieshushijian="jieshushijian";
     while(1){
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
         {
+            const char *snvarname="sn";
+            const char *kaishishijian="kaishishijian";
+            const char *jieshushijian="jieshushijian";
+            char dangqianshijian[100]={0};
+            char needstr[100];
+
             time_t t;
             t=time(0);//当前时间秒数
+
             sprintf(dangqianshijian,"%ld",t);
             PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
