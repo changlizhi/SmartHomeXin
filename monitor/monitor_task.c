@@ -847,6 +847,7 @@ static int Kaishizhendong()
 //更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
 static void *GengxinBofangShijian(void *arg)
 {
+    MakeAlarmG(GetCurrentAlarm());//每次启动都创建
     while(1){
         int bofang = (currentButtonState == 1);
         PrintLog(0,"GengxinBofangShijian---currentButtonState---%d\n",currentButtonState);
@@ -905,7 +906,7 @@ int MonitorTaskInit(void)
     currentButtonState=0;
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
-    MakeAlarmG(GetCurrentAlarm());//每次启动都创建
+
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
     AlarmInit();//初始化时间文件
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
