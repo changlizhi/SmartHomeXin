@@ -849,8 +849,6 @@ static int Kaishizhendong()
 //更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
 static void *GengxinBofangShijian(void *arg)
 {
-    char cmd[512] = {0};
-    memset(cmd,0,512);
     while(1){
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
@@ -880,6 +878,8 @@ static void *GengxinBofangShijian(void *arg)
             getuciConfigvar(jieshushijian,needstr);
             PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
 
+            char cmd[512] = {0};
+            memset(cmd,0,512);
             sprintf(cmd,"uci -c/opt/ft commit");
             system(cmd);
         }
