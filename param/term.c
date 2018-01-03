@@ -73,7 +73,6 @@ int  getuciConfigvar(const char *varname, char *buffer)
     memset(str_tmp, '\0', 100);
     fgets(str_tmp, 100, fd);
     pclose(fd);
-    PrintLog(0,"str_tmp:%s\n",str_tmp);
     if((!strncmp(str_tmp,"uci:",strlen("uci:"))) || (strlen(str_tmp)<2) )
     {
         return -1;
@@ -97,7 +96,6 @@ int  setuciConfigvar(const char *varname, char *buffer)
     memset(str_tmp, '\0', 100);
     fgets(str_tmp, 100, fd);
     pclose(fd);
-    PrintLog(0,"str_tmp:%s\n",str_tmp);
     if((!strncmp(str_tmp,"uci:",strlen("uci:"))) || (strlen(str_tmp)<2) )
     {
         return -1;
