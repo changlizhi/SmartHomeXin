@@ -53,7 +53,7 @@ static void startup(void)
     MonitorInit();
 
 
-    SvrCommInit();
+    //SvrCommInit();
     CheckInitFlag();
     {
         sysclock_t clock;
@@ -97,7 +97,7 @@ static void ParseArgs(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
     printf("\n\n");
-    printf("\033[1;32m" "深圳XX公司\n");
+    printf("\033[1;32m" "Amchis co.\n");
     printf("Relase Date: 20%02d-%d-%d %d:%d %s \033[0m\n\n",
         _mk_year, _mk_month, _mk_day, _mk_hour, _mk_minute, VersionDebugInfo);
 
