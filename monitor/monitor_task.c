@@ -855,7 +855,7 @@ static void *GengxinBofangShijian(void *arg)
         if(bofang)//如果是播放状态
         {
             UpdateAlarm(GetCurrentAlarm());//更新播放时间
-            PrintLog(0,"GengxinBofangShijian---up---%d\n");
+            PrintLog(0,"GengxinBofangShijian---up\n");
         }
         Sleep(600);//每6秒监测一次
     }
