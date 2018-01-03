@@ -849,32 +849,37 @@ static int Kaishizhendong()
 //更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
 static void *GengxinBofangShijian(void *arg)
 {
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    char dangqianshijian[100]={0};
+    char needstr[100];
+    const char *snvarname="sn";
+    const char *kaishishijian="kaishishijian";
+    const char *jieshushijian="jieshushijian";
     while(1){
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
         {
             time_t t;
             t=time(0);//当前时间秒数
-            char dangqianshijian[100]={0};
             sprintf(dangqianshijian,"%ld",t);
             PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
-            char needstr[100];
 
-            const char *snvarname="sn";
             getuciConfigvar(snvarname,needstr);
             PrintLog(0,"sn---needstr---:%s\n",needstr);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
-            const char * kaishishijian="kaishishijian";
             setuciConfigvar(kaishishijian,dangqianshijian);
             getuciConfigvar(kaishishijian,needstr);
             PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
 
-//            const char * jieshushijian="jieshushijian";
-//            setuciConfigvar(jieshushijian,dangqianshijian);
-//            getuciConfigvar(jieshushijian,needstr);
-//            PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
+            setuciConfigvar(jieshushijian,dangqianshijian);
+            getuciConfigvar(jieshushijian,needstr);
+            PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
+
+            sprintf(cmd,"uci -c/opt/ft commit");
+            system(cmd);
         }
         Sleep(600);//每6秒监测一次
     }
