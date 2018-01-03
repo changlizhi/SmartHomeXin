@@ -853,33 +853,32 @@ static void *GengxinBofangShijian(void *arg)
         int bofang = (currentButtonState == 1);
         if(bofang)//如果是播放状态
         {
-            const char *snvarname="sn";
-            const char *kaishishijian="kaishishijian";
-            const char *jieshushijian="jieshushijian";
-            char dangqianshijiancmd[256]={0};
-
             time_t t;
             t=time(0);//当前时间秒数
+            char dangqianshijian[100]={0};
+            sprintf(dangqianshijian,"%ld",t);
+            PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
-            sprintf(dangqianshijiancmd,"%ld",t);
-            PrintLog(0,"dangqianshijiancmd---shuzi:%ld,dangqianshijiancmd---zifu:%s\n",t,dangqianshijiancmd);
+            char needstr[100];
 
-
-            getuciConfigvar(snvarname,dangqianshijiancmd);
-            PrintLog(0,"sn---dangqianshijiancmd---:%s\n",dangqianshijiancmd);
+            const char *snvarname="sn";
+            getuciConfigvar(snvarname,needstr);
+            PrintLog(0,"sn---needstr---:%s\n",needstr);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
-            setuciConfigvar(kaishishijian,dangqianshijiancmd);
-            getuciConfigvar(kaishishijian,dangqianshijiancmd);
-            PrintLog(0,"huoqukaishishijian---dangqianshijiancmd---:%s\n",dangqianshijiancmd);
+            const char * kaishishijian="kaishishijian";
+            setuciConfigvar(kaishishijian,dangqianshijian);
+            getuciConfigvar(kaishishijian,needstr);
+            PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
+//
+//            const char * jieshushijian="jieshushijian";
+//            setuciConfigvar(jieshushijian,dangqianshijian);
+//            char huoqujieshushijian[100];
+//            getuciConfigvar(jieshushijian,huoqujieshushijian);
+//            PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
 
-            setuciConfigvar(jieshushijian,dangqianshijiancmd);
-            getuciConfigvar(jieshushijian,dangqianshijiancmd);
-            PrintLog(0,"huoqujieshushijian---:%s\n",t,dangqianshijiancmd);
-
-            memset(dangqianshijiancmd,0,256);
-            sprintf(dangqianshijiancmd,"uci -c/opt/ft commit");
-            system(dangqianshijiancmd);
+//            sprintf(dangqianshijian,"uci -c/opt/ft commit");
+//            system(dangqianshijian);
         }
         Sleep(600);//每6秒监测一次
     }
