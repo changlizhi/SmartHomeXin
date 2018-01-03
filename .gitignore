@@ -1,0 +1,9 @@
+.idea
+
+*.o
+
+*.dep
+*~
+*.mp3
+*.zip
+*.xzip

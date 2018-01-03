@@ -1,0 +1,13 @@
+
+config ftconfig
+	option account_max '5'
+	option master_port '2576'
+	option master_passwd '111111'
+	option ledscreen_port '28123'
+	option ledscreen_addr '192.168.3.187'
+	option musicpwd '2017dnamy'
+	option master_addr '118.123.15.189'
+	option firststart '1'
+	option sn '90000023'
+	option musicmonth '5'
+
