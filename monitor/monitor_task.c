@@ -867,16 +867,14 @@ static void *GengxinBofangShijian(void *arg)
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
             const char * kaishishijian="kaishishijian";
-//            setuciConfigvar(kaishishijian,dangqianshijian);
+            setuciConfigvar(kaishishijian,dangqianshijian);
             getuciConfigvar(kaishishijian,needstr);
             PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
-//
+
 //            const char * jieshushijian="jieshushijian";
 //            setuciConfigvar(jieshushijian,dangqianshijian);
-//            char huoqujieshushijian[100];
-//            getuciConfigvar(jieshushijian,huoqujieshushijian);
-//            PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
-
+//            getuciConfigvar(jieshushijian,needstr);
+//            PrintLog(0,"huoqujieshushijian---:%s\n",t,needstr);
         }
         Sleep(600);//每6秒监测一次
     }
