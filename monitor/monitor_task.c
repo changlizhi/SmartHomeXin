@@ -860,8 +860,7 @@ static void *GengxinBofangShijian(void *arg)
 
             time_t t;
             t=time(0);//当前时间秒数
-            char dangqianshijian[100]={0};
-            sprintf(dangqianshijian,"%ld",t);
+            ultoa(dangqianshijian,t,10);
             PrintLog(0,"dangqianshijian---shuzi:%ld,dangqianshijian---zifu:%s\n",t,dangqianshijian);
 
             //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
