@@ -230,8 +230,8 @@ int AlarmInit(void)
         if(ReadBinFile(filename, ALARM_MAGIC, (unsigned char *)pbuf, sizeof(alarm_buf_t)*ALMNUM_PERFILE) > 0)
         {
             PrintLog(0,"clztest--------AlarmInit---success!\n");
-            PrintLog(0, "palm->starttime(%d) == palm->endtime(%d)\n",palm->starttime,palm->endtime);
-            PrintLog(0, "sizeof(palm->endtime)(%d)\n",sizeof(palm->endtime));
+            PrintLog(0, "palm->starttime(%d) == palm->endtime(%d)\n",pbuf->starttime,pbuf->endtime);
+            PrintLog(0, "sizeof(palm->endtime)(%d)\n",sizeof(pbuf->endtime));
         }
         else
         {
