@@ -1060,6 +1060,16 @@ static void *Yinliangzengjian(void *arg)
     gpio_fd_close(gpio_fdsub);
     return 0;
 }
+static void *ShezhiSn(void *arg){
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    //音频有效，则循环播放音频文件
+    sprintf(cmd,"chmod +x /opt/work/macdizhi.sh");
+    system(cmd);
+    Sleep(15);
+    sprintf(cmd,"ash /opt/work/macdizhi.sh");
+    system(cmd);
+}
 
 DECLARE_INIT_FUNC(MonitorTaskInit);
 int MonitorTaskInit(void)
@@ -1072,6 +1082,7 @@ int MonitorTaskInit(void)
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
+    SysCreateTask(ShezhiSn, NULL);//音量增减功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
