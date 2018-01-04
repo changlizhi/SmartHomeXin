@@ -868,7 +868,12 @@ static void *GengxinBofangShijian(void *arg)
             //这里如果服务端发起更新命令或者初次开机播放，初始值为11111就需要更新一次
             const char * kaishishijian="kaishishijian";
             getuciConfigvar(kaishishijian,needstr);
-            if (needstr == "11111"){
+
+            kaishile = (needstr == "11111");
+            PrintLog(0,"needstr111---:%s\n",needstr);
+            PrintLog(0,"kaishile---:%d\n",kaishile);
+
+            if (kaishile){
                 setuciConfigvar(kaishishijian,dangqianshijian);
                 PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
             }
