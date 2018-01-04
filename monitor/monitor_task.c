@@ -865,17 +865,18 @@ static void *GengxinBofangShijian(void *arg)
             getuciConfigvar(snvarname,needstr);
             PrintLog(0,"sn---needstr---:%s\n",needstr);
 
-            //开始时间会在出厂的时候设置的时候设置为11111，如果判断到huoqukaishishijian不为11111则执行如下操作，这里先测试 TODO
+            //这里如果服务端发起更新命令或者初次开机播放，初始值为11111就需要更新一次
             const char * kaishishijian="kaishishijian";
-            setuciConfigvar(kaishishijian,dangqianshijian);
             getuciConfigvar(kaishishijian,needstr);
-            PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
-//
-//            const char * jieshushijian="jieshushijian";
-//            setuciConfigvar(jieshushijian,dangqianshijian);
-//            char huoqujieshushijian[100];
-//            getuciConfigvar(jieshushijian,huoqujieshushijian);
-//            PrintLog(0,"huoqujieshushijian---:%s\n",t,huoqujieshushijian);
+            if (needstr == "11111"){
+                setuciConfigvar(kaishishijian,dangqianshijian);
+                PrintLog(0,"huoqukaishishijian---needstr---:%s\n",needstr);
+            }
+            //每1分钟更新一次，没有其他条件
+            const char * jieshushijian="jieshushijian";
+            setuciConfigvar(jieshushijian,dangqianshijian);
+            getuciConfigvar(jieshushijian,needstr);
+            PrintLog(0,"huoqujieshushijian---needstr---:%s\n",needstr);
 
             sprintf(dangqianshijian,"uci -c/opt/ft commit");
             system(dangqianshijian);
