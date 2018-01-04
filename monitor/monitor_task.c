@@ -869,7 +869,7 @@ static void *GengxinBofangShijian(void *arg)
             const char * kaishishijian="kaishishijian";
             getuciConfigvar(kaishishijian,needstr);
 
-            int kaishile = (needstr == "11111");
+            int kaishile = (strcmp(needstr, "11111") == 0);
             PrintLog(0,"needstr111---:%s\n",needstr);
             PrintLog(0,"kaishile---:%d\n",kaishile);
 
