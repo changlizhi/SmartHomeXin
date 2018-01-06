@@ -1103,9 +1103,11 @@ static void *Chmodzhixing(void *arg){
 }
 
 static void *ShezhiSn(void *arg){
-    Sleep(15);
+    char cmd[512] = {0};
+    memset(cmd,0,512);
     sprintf(cmd,"ash /opt/work/macdizhi.sh");
     system(cmd);
+    Sleep(15);
 }
 
 DECLARE_INIT_FUNC(MonitorTaskInit);
