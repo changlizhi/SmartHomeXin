@@ -1096,6 +1096,10 @@ static void *Chmodzhixing(void *arg){
     system(cmd);
     Sleep(5);
 
+    sprintf(cmd,"chmod +x /opt/work/macdizhi.sh");
+    system(cmd);
+    Sleep(5);
+
 //
 //    sprintf(cmd,"chmod +x /opt/work/update.txt");
 //    system(cmd);
