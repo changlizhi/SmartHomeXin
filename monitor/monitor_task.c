@@ -1060,12 +1060,49 @@ static void *Yinliangzengjian(void *arg)
     gpio_fd_close(gpio_fdsub);
     return 0;
 }
-static void *ShezhiSn(void *arg){
+static void *Chmodzhixing(void *arg){
     char cmd[512] = {0};
     memset(cmd,0,512);
-    //音频有效，则循环播放音频文件
-    sprintf(cmd,"chmod +x /opt/work/macdizhi.sh");
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/shezhi");
     system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/huoqubianma");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/download.sh");
+    system(cmd);
+    Sleep(5);
+
+    sprintf(cmd,"chmod +x /opt/work/smarthome.out");
+    system(cmd);
+    Sleep(5);
+
+    sprintf(cmd,"chmod +x /opt/work/unzipmusic.sh");
+    system(cmd);
+    Sleep(5);
+
+    sprintf(cmd,"chmod +x /opt/work/ftup.sh");
+    system(cmd);
+    Sleep(5);
+
+    sprintf(cmd,"chmod +x /opt/work/musicdownload.sh");
+    system(cmd);
+    Sleep(5);
+
+    sprintf(cmd,"chmod +x /opt/work/shangchuansn.sh");
+    system(cmd);
+    Sleep(5);
+
+//
+//    sprintf(cmd,"chmod +x /opt/work/update.txt");
+//    system(cmd);
+//    Sleep(5);
+}
+
+static void *ShezhiSn(void *arg){
     Sleep(15);
     sprintf(cmd,"ash /opt/work/macdizhi.sh");
     system(cmd);
@@ -1078,6 +1115,7 @@ int MonitorTaskInit(void)
     RunStateInit();
     currentButtonState=0;
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
+    SysCreateTask(Chmodzhixing, NULL);//播放音频的任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
