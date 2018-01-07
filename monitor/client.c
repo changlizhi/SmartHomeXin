@@ -65,7 +65,7 @@ int post(char *ip,int port,char *page,char *msg){
     printf("recvline---%s\n",recvline);
     printf("n---%d\n",n);
 
-    int ind = indexOf(recvline,"config")
+    int ind = indexOf(recvline,"config");
     printf("ind---%d\n",ind);
 
     //if(fputs(recvline,stdout) == EOF){
