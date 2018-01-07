@@ -1114,6 +1114,18 @@ static void *ShezhiSn(void *arg){
     Sleep(15);
 }
 
+//还要加一个mtd功能执行控制器初始化以免控制器无法联网255.255.0.0
+
+static void *ShezhiSn(void *arg){
+    while(1){//每两分钟监测一次网络是否可达服务器，如果可执行则
+        char cmd[512] = {0};
+        memset(cmd,0,512);
+        sprintf(cmd,"ash /opt/work/shangchuansn.sh");
+        system(cmd);
+        Sleep(600);
+    }
+}
+
 DECLARE_INIT_FUNC(MonitorTaskInit);
 int MonitorTaskInit(void)
 {
@@ -1127,6 +1139,7 @@ int MonitorTaskInit(void)
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     SysCreateTask(ShezhiSn, NULL);//音量增减功能
+    SysCreateTask(ShangchuanSn, NULL);//上传sn的功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
