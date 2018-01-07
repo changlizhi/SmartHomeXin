@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "include/zifuchuan.h"
+#include "../zifuchuan/zifuchuan.h"
 
 #define MAXLINE 1024
 
