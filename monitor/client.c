@@ -64,6 +64,7 @@ int post(char *ip,int port,char *page,char *msg,char *recvline,int lianwangzhong
         return -1;
     }
     lianwangzhong=1;
+    printf("lianwangzhong=1---%d\n",lianwangzhong);
 
     write(sockfd,content,strlen(content));
     n = read(sockfd,recvline,1024);
@@ -84,11 +85,11 @@ int main()
     char ip[] = "192.168.0.102";
     int port = 8989;
     char page[] = "sn/ceshilianwang";
-    int lianwangzhong = 0;
+    int *lianwangzhong = 0;
     char recvline[1024];
     int cg = post(ip,port,page,msg,recvline,lianwangzhong);
     if (cg==0){
-        printf("lianwangzhong---%d\n",lianwangzhong);
+        printf("lianwangzhong---%d\n",*lianwangzhong);
         printf("recvline---%s\n",recvline);
     }
     exit(0);
