@@ -26,7 +26,7 @@ int indexOf(char *str1,char *str2)
     return i;
 }
 
-int post(char *ip,int port,char *page,char *msg,char recvline,int lianwangzhong){
+int post(char *ip,int port,char *page,char *msg,char[] recvline,int lianwangzhong){
     int sockfd,n;
 
     struct sockaddr_in servaddr;
@@ -66,10 +66,10 @@ int post(char *ip,int port,char *page,char *msg,char recvline,int lianwangzhong)
     lianwangzhong=1;
 
     write(sockfd,content,strlen(content));
-    n = read(sockfd,recvline,MAXLINE);
+    n = read(sockfd,recvline,1024);
     printf("n---%d\n",n);
 
-    int ind = indexOf(recvline,"config")
+    int ind = indexOf(recvline,"config");
     printf("in---%d\n",in);
 
     if(n < 0){
