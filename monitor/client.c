@@ -5,26 +5,9 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "include/zifuchuan.h"
 
 #define MAXLINE 1024
-
-/*返回str2第一次出现在str1中的位置(下表索引),不存在返回-1*/
-int indexOf(char *str1,char *str2)
-{
-    char *p=str1;
-    int i=0;
-    p=strstr(str1,str2);
-    if(p==NULL)
-        return -1;
-    else{
-        while(str1!=p)
-        {
-            str1++;
-            i++;
-        }
-    }
-    return i;
-}
 
 int post(char *ip,int port,char *page,char *msg){
     int sockfd,n;
