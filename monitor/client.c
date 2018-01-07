@@ -5,19 +5,26 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../zifuchuan/zifuchuan.h"
 
 #define MAXLINE 1024
 
-extern void replaceFirst(char *str1,char *str2,char *str3);
-extern void replace(char *str1,char *str2,char *str3);
-extern void substring(char *dest,char *src,int start,int end);
-extern char charAt(char *src,int index);
-extern int indexOf(char *str1,char *str2);
-extern int lastIndexOf(char *str1,char *str2);
-extern void ltrim(char *str);
-extern void rtrim(char *str);
-extern void trim(char *str);
+/*返回str2第一次出现在str1中的位置(下表索引),不存在返回-1*/
+int indexOf(char *str1,char *str2)
+{
+    char *p=str1;
+    int i=0;
+    p=strstr(str1,str2);
+    if(p==NULL)
+        return -1;
+    else{
+        while(str1!=p)
+        {
+            str1++;
+            i++;
+        }
+    }
+    return i;
+}
 
 int post(char *ip,int port,char *page,char *msg){
     int sockfd,n;
@@ -58,8 +65,8 @@ int post(char *ip,int port,char *page,char *msg){
     printf("recvline---%s\n",recvline);
     printf("n---%d\n",n);
 
-    int ind = indexOf(recvline,"config");
-    printf("ind---%d\n",ind);
+    int ind = indexOf(recvline,"config")
+    printf("in---%d\n",in);
 
     //if(fputs(recvline,stdout) == EOF){
     //    printf("fputs error\n");
