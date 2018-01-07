@@ -59,6 +59,7 @@ int post(char *ip,int port,char *page,char *msg){
     n = read(sockfd,recvline,MAXLINE);
     printf("recvline---%s\n",recvline);
     printf("n---%d\n",n);
+    printf("sizeof(recvline)---%d\n",sizeof(recvline));
     //if(fputs(recvline,stdout) == EOF){
     //    printf("fputs error\n");
     //}
