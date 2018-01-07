@@ -26,7 +26,7 @@ int indexOf(char *str1,char *str2)
     return i;
 }
 
-int post(char *ip,int port,char *page,char *msg,char *recvline,int *lianwangzhong){
+int post(char *ip,int port,char *page,char *msg,char *recvline){
     int sockfd,n;
 
     struct sockaddr_in servaddr;
@@ -63,8 +63,6 @@ int post(char *ip,int port,char *page,char *msg,char *recvline,int *lianwangzhon
         printf("connect error\n");
         return -1;
     }
-    lianwangzhong=1;
-    printf("lianwangzhong=1---%d\n",lianwangzhong);
 
     write(sockfd,content,strlen(content));
     n = read(sockfd,recvline,1024);
@@ -85,9 +83,8 @@ int main()
     char ip[] = "192.168.0.102";
     int port = 8989;
     char page[] = "sn/ceshilianwang";
-    int *lianwangzhong;
     char recvline[1024];
-    int cg = post(ip,port,page,msg,recvline,lianwangzhong);
+    int cg = post(ip,port,page,msg,recvline);
     if (cg==0){
         printf("lianwangzhong---%d\n",lianwangzhong);
         printf("recvline---%s\n",recvline);
