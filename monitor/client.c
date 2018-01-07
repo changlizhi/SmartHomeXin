@@ -70,7 +70,7 @@ int post(char *ip,int port,char *page,char *msg,char *recvline,int lianwangzhong
     printf("n---%d\n",n);
 
     int ind = indexOf(recvline,"config");
-    printf("in---%d\n",in);
+    printf("ind---%d\n",ind);
 
     if(n < 0){
         printf("read error\n");
