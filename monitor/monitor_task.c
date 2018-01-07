@@ -41,7 +41,6 @@
 #include "downlink/plmdb.h"
 #include "include/uplink/svrnote.h"
 #include "../uplink/svrcomm.h"
-#include "zifuchuan/zifuchuan.h"
 
 
 /*返回str2第一次出现在str1中的位置(下表索引),不存在返回-1*/
