@@ -8,17 +8,22 @@
 
 #define MAXLINE 1024
 
-int split(char dst[][80], char* str, const char* spl)
+/*返回str2第一次出现在str1中的位置(下表索引),不存在返回-1*/
+int indexOf(char *str1,char *str2)
 {
-    int n = 0;
-    char *result = NULL;
-    result = strtok(str, spl);
-    while( result != NULL )
-    {
-        strcpy(dst[n++], result);
-        result = strtok(NULL, spl);
+    char *p=str1;
+    int i=0;
+    p=strstr(str1,str2);
+    if(p==NULL)
+        return -1;
+    else{
+        while(str1!=p)
+        {
+            str1++;
+            i++;
+        }
     }
-    return n;
+    return i;
 }
 
 int post(char *ip,int port,char *page,char *msg){
@@ -59,7 +64,10 @@ int post(char *ip,int port,char *page,char *msg){
     n = read(sockfd,recvline,MAXLINE);
     printf("recvline---%s\n",recvline);
     printf("n---%d\n",n);
-    printf("sizeof(recvline)---%d\n",sizeof(recvline));
+
+    int ind = indexOf(recvline,"config")
+    printf("ind---%d\n",ind);
+
     //if(fputs(recvline,stdout) == EOF){
     //    printf("fputs error\n");
     //}
