@@ -26,7 +26,7 @@ int indexOf(char *str1,char *str2)
     return i;
 }
 
-int post(char *ip,int port,char *page,char *msg,char *recvline,int lianwangzhong){
+int post(char *ip,int port,char *page,char *msg,char *recvline,int *lianwangzhong){
     int sockfd,n;
 
     struct sockaddr_in servaddr;
