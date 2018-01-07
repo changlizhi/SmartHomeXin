@@ -86,7 +86,6 @@ int main()
     char recvline[1024];
     int cg = post(ip,port,page,msg,recvline);
     if (cg==0){
-        printf("lianwangzhong---%d\n",lianwangzhong);
         printf("recvline---%s\n",recvline);
     }
     exit(0);
