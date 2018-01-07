@@ -83,7 +83,7 @@ int main()
     char msg[] = "Ceshilianwang=ceshi";
     char ip[] = "192.168.0.102";
     int port = 8989;
-    char page[] = "sn/lianwang";
+    char page[] = "sn/ceshilianwang";
     int lianwangzhong = 0;
     char recvline[1024];
     int cg = post(ip,port,page,msg,recvline,lianwangzhong);
