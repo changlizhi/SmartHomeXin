@@ -1186,7 +1186,7 @@ static void *ShezhiSn(void *arg){
 }
 
 //识别网络是否成功然后上传
-static void *ShangchuanSn(void *arg){
+static void *ShangchuanShuju(void *arg){
     //识别网络是否成功然后上传
     while(1){
         PrintLog(0,"kaishi qingqiu lianwang!!!\n");
@@ -1204,6 +1204,10 @@ static void *ShangchuanSn(void *arg){
             sprintf(cmd,"ash /opt/work/shangchuansn.sh");
             system(cmd);
             Sleep(15);
+
+            sprintf(cmd,"ash /opt/work/shangchuansn.sh");
+            system(cmd);
+            Sleep(15);
         }
     }
 }
@@ -1215,6 +1219,8 @@ static void *Chongxinshaolu(void *arg){
         sprintf(cmd,"ash /opt/work/chongxinshaolu.sh");
         system(cmd);
         Sleep(600);
+
+
     }
 }
 
@@ -1231,7 +1237,7 @@ int MonitorTaskInit(void)
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     SysCreateTask(ShezhiSn, NULL);//音量增减功能
-    SysCreateTask(ShangchuanSn, NULL);//上传sn的功能
+    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
