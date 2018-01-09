@@ -1204,6 +1204,9 @@ static void *Chmodzhixing(void *arg){
 
 }
 
+static void *XiazaiYinpin(void *arg){
+
+}
 
 static void *ShezhiSn(void *arg){
     char cmd[512] = {0};
@@ -1233,7 +1236,7 @@ static void *ShangchuanShuju(void *arg){
             system(cmd);
             Sleep(15);
 
-            sprintf(cmd,"ash /opt/work/shangchuansn.sh");
+            sprintf(cmd,"ash /opt/work/shangchuanshijian.sh");
             system(cmd);
             Sleep(15);
         }
@@ -1251,6 +1254,23 @@ static void *Chongxinshaolu(void *arg){
 
     }
 }
+//增加一个12小时重启功能，很多数据需要启动时执行，比如删除，比如更新，
+//使用着的时候不会操作，但记录了很多数据，重启时读取那些数据完成功能，最不济就免费用一天而已
+static void *Chongqi(void *arg){
+    int x=0;
+    while(1){
+        if(x > 4320000){
+            char cmd[512] = {0};
+            memset(cmd,0,512);
+            sprintf(cmd,"reboot");
+            system(cmd);
+            break;
+        }
+        x += 100;
+        PrintLog(0,"jishu---x:",x);//每秒打印一次计数
+        Sleep(100);//线程睡眠1秒
+    }
+}
 
 DECLARE_INIT_FUNC(MonitorTaskInit);
 int MonitorTaskInit(void)
@@ -1259,6 +1279,7 @@ int MonitorTaskInit(void)
     RunStateInit();
     currentButtonState=0;
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
+    SysCreateTask(Chongqi, NULL);//重新启动的任务
     SysCreateTask(Chmodzhixing, NULL);//播放音频的任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
@@ -1266,6 +1287,7 @@ int MonitorTaskInit(void)
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     SysCreateTask(ShezhiSn, NULL);//音量增减功能
     SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
+    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
     //AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
