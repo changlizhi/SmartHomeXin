@@ -1134,7 +1134,15 @@ static void *Chmodzhixing(void *arg){
     char cmd[512] = {0};
     memset(cmd,0,512);
 
-    sprintf(cmd,"chmod +x /www/cgi-bin/shezhi");
+    sprintf(cmd,"chmod +x /www/cgi-bin/checkwifi");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/diswifi");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/getssid");
     system(cmd);
     Sleep(15);
 
@@ -1142,38 +1150,58 @@ static void *Chmodzhixing(void *arg){
     system(cmd);
     Sleep(15);
 
+    sprintf(cmd,"chmod +x /www/cgi-bin/luci");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/setpass");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/setwifi");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /www/cgi-bin/shezhi");
+    system(cmd);
+    Sleep(15);
+
     sprintf(cmd,"chmod +x /opt/work/download.sh");
     system(cmd);
-    Sleep(5);
-
-    sprintf(cmd,"chmod +x /opt/work/smarthome.out");
-    system(cmd);
-    Sleep(5);
-
-    sprintf(cmd,"chmod +x /opt/work/unzipmusic.sh");
-    system(cmd);
-    Sleep(5);
+    Sleep(15);
 
     sprintf(cmd,"chmod +x /opt/work/ftup.sh");
     system(cmd);
-    Sleep(5);
-
-    sprintf(cmd,"chmod +x /opt/work/musicdownload.sh");
-    system(cmd);
-    Sleep(5);
-
-    sprintf(cmd,"chmod +x /opt/work/shangchuansn.sh");
-    system(cmd);
-    Sleep(5);
+    Sleep(15);
 
     sprintf(cmd,"chmod +x /opt/work/macdizhi.sh");
     system(cmd);
-    Sleep(5);
+    Sleep(15);
 
-//
-//    sprintf(cmd,"chmod +x /opt/work/update.txt");
-//    system(cmd);
-//    Sleep(5);
+    sprintf(cmd,"chmod +x /opt/work/musicdownload.sh");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/shangchuansn.sh");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/smarthome.out");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/startup.sh");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/unzipmusic.sh");
+    system(cmd);
+    Sleep(15);
+
+    sprintf(cmd,"chmod +x /opt/work/update.txt");
+    system(cmd);
+    Sleep(15);
+
 }
 
 
