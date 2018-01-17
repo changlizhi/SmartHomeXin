@@ -887,7 +887,7 @@ static void trans(long sec){
 static void uciuse(){
     char *mingling = "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1";
 
-    char needstr[100];
+    char needstr[100]={0};
 
     const char *snvarname="sn";
     getuci(snvarname,needstr,mingling);
@@ -896,10 +896,10 @@ static void uciuse(){
     const char *varcishu="cishu";
     getuci(varcishu,needstr,mingling);
     PrintLog(0,"sncishu-----:%s\n",needstr);
-    char needstrset[]="2222";
-    setuci(varcishu,needstrset,mingling);
 
-    PrintLog(0,"setting cishu-----:%s\n",needstr);
+    PrintLog(0,"setting cishu-----:%s\n","2222");
+    setuci(varcishu,"2222",mingling);
+
     getuci(varcishu,needstr,mingling);
     PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
 }
