@@ -896,12 +896,12 @@ static void uciuse(){
     const char *varcishu="cishu";
     getuci(varcishu,needstr,mingling);
     PrintLog(0,"sncishu-----:%s\n",needstr);
-    needstr="2222";
-    setuci(varcishu,needstr,mingling);
+    char *needstrset="2222";
+    setuci(varcishu,needstrset,mingling);
 
     PrintLog(0,"setting cishu-----:%s\n",needstr);
     getuci(varcishu,needstr,mingling);
-    PrintLog(0,"sncishu222-----:%s\n",needstr);
+    PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
 }
 
 static void *Yinpinguoqi(void *arg){
