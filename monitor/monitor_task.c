@@ -905,21 +905,6 @@ static void *Yinpinguoqi(void *arg){
             PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
             PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
         }
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p =localltime(&timep); //此函数获得的tm结构体的时间，是已经进行过时区转化为本地时间
-        //p = gmtime(&timep); //把日期和时间转换为格林威治(GMT)时间的函数
-
-        PrintLog(0,"Year:  %d\n", 1900+p->tm_year);
-        PrintLog(0,"Month:  %d\n", 1+p->tm_mon);
-        PrintLog(0,"Day:  %d\n", p->tm_mday);
-        PrintLog(0,"Hour:  %d\n", p->tm_hour);
-        PrintLog(0,"Minute:  %d\n", p->tm_min);
-        PrintLog(0,"Second:  %d\n",  p->tm_sec);
-        PrintLog(0,"Weekday:  %d\n", p->tm_wday);
-        PrintLog(0,"Days:  %d\n", p->tm_yday);
-        PrintLog(0,"Isdst:  %d\n", p->tm_isdst);
         Sleep(600);
     }
 }
