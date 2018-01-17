@@ -873,32 +873,54 @@ static void *VolumeBtn_Pressdown(void *arg)
     gpio_fd_close(gpio_fdsub);
     return 0;
 }
+static void trans(long sec){
+	long hour,min;
+	hour=sec/3600;     //计算时 3600进制
+	min=(sec%3600)/60;   //计算分  60进制
+	sec=(sec%3600)%60;   //计算秒  余下的全为秒数
+	PrintLog(0,"%ld SHI:%ld FEN:%ld MIAO\n",hour,min,sec);
+}
 
-static int Yinpinguoqi(char *lujing){
-    PrintLog(0,"lujing-----%s\n",lujing);
-    time_t t;
-    t=time(0);//当前时间秒数
+static void *Yinpinguoqi(void *arg){
+    char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
+    while(1){
+        PrintLog(0,"lujing-----%s\n",lujing);
+        time_t t;
+        t=time(0);//当前时间秒数
 
-    PrintLog(0,"dangqian shijian-----%ld\n",t);
-    struct stat buf;
-    int result;
+        PrintLog(0,"dangqian shijian-----%ld\n",t);
+        trans(t);
+        struct stat buf;
+        int result;
+        //获得文件状态信息
+        result =stat(lujing, &buf );
+        //显示文件状态信息
+        if( result != 0 ){
+            PrintLog(0,"wenjian chucuo" );//并提示出错的原因，如No such file or directory（无此文件或索引）
+        }
+        else
+        {
+            PrintLog(0,"wenjian daxiao: %d\n", buf.st_size);
+            PrintLog(0,"chuangjian shijian : %s\n", ctime(&buf.st_ctime));
+            PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
+            PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
+        }
+        time_t timep;
+        struct tm *p;
+        time(&timep);
+        p =localltime(&timep); //此函数获得的tm结构体的时间，是已经进行过时区转化为本地时间
+        //p = gmtime(&timep); //把日期和时间转换为格林威治(GMT)时间的函数
 
-    //获得文件状态信息
-
-    result =stat(lujing, &buf );
-
-    //显示文件状态信息
-
-    if( result != 0 ){
-        PrintLog(0,"wenjian chucuo" );//并提示出错的原因，如No such file or directory（无此文件或索引）
-    }
-    else
-    {
-        PrintLog(0,"wenjian daxiao: %d\n", buf.st_size);
-        PrintLog(0,"chuangjian shijian : %s\n", ctime(&buf.st_ctime));
-        PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
-        PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
-
+        PrintLog(0,"Year:  %d\n", 1900+p->tm_year);
+        PrintLog(0,"Month:  %d\n", 1+p->tm_mon);
+        PrintLog(0,"Day:  %d\n", p->tm_mday);
+        PrintLog(0,"Hour:  %d\n", p->tm_hour);
+        PrintLog(0,"Minute:  %d\n", p->tm_min);
+        PrintLog(0,"Second:  %d\n",  p->tm_sec);
+        PrintLog(0,"Weekday:  %d\n", p->tm_wday);
+        PrintLog(0,"Days:  %d\n", p->tm_yday);
+        PrintLog(0,"Isdst:  %d\n", p->tm_isdst);
+        Sleep(600);
     }
 }
 
@@ -986,7 +1008,6 @@ static void *BofangYinpin(void *arg)
     while (1) {
         char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
         if(access(lujing,F_OK)==0){
-            Yinpinguoqi(lujing);
             sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/2.wav  &");
             system(cmd);
             Sleep(600);
@@ -1233,7 +1254,8 @@ int MonitorTaskInit(void)
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
-    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
+    SysCreateTask(Yinpinguoqi, NULL);//播放音频的任务
+//    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
 //    SysCreateTask(Chongqi, NULL);//重新启动的任务
 //    SysCreateTask(ShezhiSn, NULL);//音量增减功能
 //    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
