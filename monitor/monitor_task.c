@@ -890,8 +890,9 @@ static void uciuse(){
 
     char *canshu[]={
         "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",//0
-        "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",//1
-        "2222"//2
+        "uci -c/opt/ft get bofangcishu.@bofangcishu[0].%s 2>&1",//1
+        "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",//2
+        "2222"//3
     };
 
     const char *varsn="sn";
@@ -900,13 +901,13 @@ static void uciuse(){
 
     const char *varcishu="cishu";
     getuci(varcishu,needstr,canshu[1]);
-    PrintLog(0,"sncishu-----:%s\n",needstr);
+    PrintLog(0,"before-set-sncishu-----:%s\n",needstr);
 
-//    PrintLog(0,"setting cishu-----:%s\n",canshu[2]);
-//    setuci(varcishu,canshu[2],canshu[1]);
+    PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
+    setuci(varcishu,canshu[3],canshu[2]);
 
     getuci(varcishu,needstr,canshu[1]);
-    PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
+    PrintLog(0,"after-set-sncishu-----:%s\n",needstr);
 }
 
 static void *Yinpinguoqi(void *arg){
