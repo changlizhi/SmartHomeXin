@@ -896,7 +896,7 @@ static void uciuse(){
     const char *varcishu="cishu";
     getuci(varcishu,needstr,mingling);
     PrintLog(0,"sncishu-----:%s\n",needstr);
-    char *needstrset="2222";
+    char needstrset[]="2222";
     setuci(varcishu,needstrset,mingling);
 
     PrintLog(0,"setting cishu-----:%s\n",needstr);
