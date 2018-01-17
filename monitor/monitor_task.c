@@ -885,7 +885,6 @@ static void trans(long sec){
 }
 
 static void uciuse(){
-    char *mingling = ;
 
     char needstr[100]={0};
 
@@ -893,7 +892,7 @@ static void uciuse(){
         "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",
         "uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1",
         "2222"
-    }
+    };
 
     const char *snvarname[]="sn";
     getuci(snvarname,needstr,canshu[0]);
