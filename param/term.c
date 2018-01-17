@@ -63,6 +63,30 @@ int Autlevel = -1;             //权限级别
 #define CAMERA_PARAM_MAGIC        0x872563bb
 #define UUID_MAGIC                    0x9631fb14
 
+int  getuci(const char *varname, char *buffer,char * ucimingling)
+{
+    char str_tmp[256];
+    FILE *fd=NULL;
+    sprintf(str_tmp, ucimingling,varname);
+    fd = popen(str_tmp, "r");
+    if(fd == NULL) return -1;
+    memset(str_tmp, '\0', 100);
+    fgets(str_tmp, 100, fd);
+    pclose(fd);
+    if((!strncmp(str_tmp,"uci:",strlen("uci:"))) || (strlen(str_tmp)<2) )
+    {
+        return -1;
+    }
+    else
+    {
+        str_tmp[strlen(str_tmp)-1]='\0';
+        sprintf(buffer, "%s",str_tmp);
+        return 0;
+
+    }
+
+}
+
 int  getuciConfigvar(const char *varname, char *buffer)
 {
     char str_tmp[256];

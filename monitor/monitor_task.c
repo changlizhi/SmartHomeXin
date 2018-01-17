@@ -327,6 +327,7 @@ unsigned char wifi_update_system_state=0;
 * @brief 校准系统时钟
 */
 
+extern int  getuci(const char *varname, char *buffer,char *mingling);
 extern int  getuciConfigvar(const char *varname, char *buffer);
 extern int  setuciConfigvar(const char *varname, char *buffer);
 extern void MakeAlarmG(alarm_buf_t *pbuf);
@@ -882,9 +883,24 @@ static void trans(long sec){
 	PrintLog(0,"shijian-----%ld Tian:%ld XIAOSHI:%ld FEN:%ld MIAO\n",day,hour,min,sec);
 }
 
+static void uciuse(){
+    char *mingling = "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1";
+
+    char needstr[100];
+
+    const char *snvarname="sn";
+    getuci(snvarname,needstr,mingling);
+    PrintLog(0,"snclz-----:%s",needstr);
+    mingling="uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1";
+    const char *varcishu="cishu";
+    getuci(varcishu,needstr,mingling);
+    PrintLog(0,"sncishu-----:%s",needstr);
+}
+
 static void *Yinpinguoqi(void *arg){
     char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
     while(1){
+        uciuse();
         PrintLog(0,"lujing-----%s\n",lujing);
         time_t t;
         t=time(0);//当前时间秒数
@@ -906,6 +922,7 @@ static void *Yinpinguoqi(void *arg){
             PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
             PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
         }
+
         Sleep(600);
     }
 }
@@ -1241,8 +1258,8 @@ int MonitorTaskInit(void)
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     SysCreateTask(Yinpinguoqi, NULL);//设置音频过期
+    SysCreateTask(Chongqi, NULL);//重新启动的任务
 //    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
-//    SysCreateTask(Chongqi, NULL);//重新启动的任务
 //    SysCreateTask(ShezhiSn, NULL);//音量增减功能
 //    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
 //    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
