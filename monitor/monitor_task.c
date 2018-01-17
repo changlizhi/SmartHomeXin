@@ -885,22 +885,28 @@ static void trans(long sec){
 }
 
 static void uciuse(){
-    char *mingling = "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1";
+    char *mingling = ;
 
     char needstr[100]={0};
 
-    const char *snvarname="sn";
-    getuci(snvarname,needstr,mingling);
+    char *canshu[]={
+        "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",
+        "uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1",
+        "2222"
+    }
+
+    const char *snvarname[]="sn";
+    getuci(snvarname,needstr,canshu[0]);
     PrintLog(0,"snclz-----:%s",needstr);
-    mingling="uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1";
+
     const char *varcishu="cishu";
-    getuci(varcishu,needstr,mingling);
+    getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"sncishu-----:%s\n",needstr);
 
-    PrintLog(0,"setting cishu-----:%s\n","2222");
-    setuci(varcishu,"2222",mingling);
+    PrintLog(0,"setting cishu-----:%s\n",canshu[2]);
+    setuci(varcishu,canshu[2],canshu[2]);
 
-    getuci(varcishu,needstr,mingling);
+    getuci(varcishu,needstr,canshu[2]);
     PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
 }
 
