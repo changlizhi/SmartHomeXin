@@ -890,7 +890,7 @@ static void uciuse(){
 
     char *canshu[]={
         "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",
-        "uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1",
+        "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",
         "2222"
     };
 
