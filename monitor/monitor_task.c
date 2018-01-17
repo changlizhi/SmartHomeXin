@@ -328,6 +328,7 @@ unsigned char wifi_update_system_state=0;
 */
 
 extern int  getuci(const char *varname, char *buffer,char *mingling);
+extern int  setuci(const char *varname, char *buffer,char *mingling);
 extern int  getuciConfigvar(const char *varname, char *buffer);
 extern int  setuciConfigvar(const char *varname, char *buffer);
 extern void MakeAlarmG(alarm_buf_t *pbuf);
@@ -894,7 +895,13 @@ static void uciuse(){
     mingling="uci -c/opt/ft get bofangcishu.@bofangcishu[].%s 2>&1";
     const char *varcishu="cishu";
     getuci(varcishu,needstr,mingling);
-    PrintLog(0,"sncishu-----:%s",needstr);
+    PrintLog(0,"sncishu-----:%s\n",needstr);
+    needstr="2222";
+    setuci(varcishu,needstr,mingling);
+
+    PrintLog(0,"setting cishu-----:%s\n",needstr);
+    getuci(varcishu,needstr,mingling);
+    PrintLog(0,"sncishu222-----:%s\n",needstr);
 }
 
 static void *Yinpinguoqi(void *arg){
@@ -1241,7 +1248,7 @@ static void *Chongqi(void *arg){
             break;
         }
         x += 100;
-        PrintLog(0,"jishu---x:",x);//每秒打印一次计数
+        PrintLog(0,"jishu---x:%d\n",x);//每秒打印一次计数
         Sleep(100);//线程睡眠1秒
     }
 }

@@ -89,9 +89,14 @@ int  getuci(const char *varname, char *buffer,char * ucimingling)
 
 int  getuciConfigvar(const char *varname, char *buffer)
 {
+    char *mingling = "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1";
+    return getuci(varname,buffer,mingling);
+}
+int  setuci(const char *varname, char *buffer,char *mingling)
+{
     char str_tmp[256];
     FILE *fd=NULL;
-    sprintf(str_tmp, "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",varname);
+    sprintf(str_tmp, mingling,varname,buffer);
     fd = popen(str_tmp, "r");
     if(fd == NULL) return -1;
     memset(str_tmp, '\0', 100);
