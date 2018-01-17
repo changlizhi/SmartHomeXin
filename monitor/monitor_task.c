@@ -878,33 +878,34 @@ static void trans(long sec){
 	hour=sec/3600;     //计算时 3600进制
 	min=(sec%3600)/60;   //计算分  60进制
 	sec=(sec%3600)%60;   //计算秒  余下的全为秒数
-	PrintLog(0,"%ld SHI:%ld FEN:%ld MIAO\n",hour,min,sec);
+	PrintLog(0,"%ld XIAOSHI:%ld FEN:%ld MIAO\n",hour,min,sec);
 }
 
 static void *Yinpinguoqi(void *arg){
-    char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
+//    char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
     while(1){
-        PrintLog(0,"lujing-----%s\n",lujing);
-        time_t t;
-        t=time(0);//当前时间秒数
-
-        PrintLog(0,"dangqian shijian-----%ld\n",t);
-        trans(t);
-        struct stat buf;
-        int result;
-        //获得文件状态信息
-        result =stat(lujing, &buf );
-        //显示文件状态信息
-        if( result != 0 ){
-            PrintLog(0,"wenjian chucuo" );//并提示出错的原因，如No such file or directory（无此文件或索引）
-        }
-        else
-        {
-            PrintLog(0,"wenjian daxiao: %d\n", buf.st_size);
-            PrintLog(0,"chuangjian shijian : %s\n", ctime(&buf.st_ctime));
-            PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
-            PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
-        }
+//        PrintLog(0,"lujing-----%s\n",lujing);
+//        time_t t;
+//        t=time(0);//当前时间秒数
+//
+//        PrintLog(0,"dangqian shijian-----%ld\n",t);
+//        trans(t);
+//        struct stat buf;
+//        int result;
+//        //获得文件状态信息
+//        result =stat(lujing, &buf );
+//        //显示文件状态信息
+//        if( result != 0 ){
+//            PrintLog(0,"wenjian chucuo" );//并提示出错的原因，如No such file or directory（无此文件或索引）
+//        }
+//        else
+//        {
+//            PrintLog(0,"wenjian daxiao: %d\n", buf.st_size);
+//            PrintLog(0,"chuangjian shijian : %s\n", ctime(&buf.st_ctime));
+//            PrintLog(0,"fangwen shijian : %s\n", ctime(&buf.st_atime));
+//            PrintLog(0,"xiugai shijian: %s\n", ctime(&buf.st_mtime));
+//        }
+        PrintLog(0,"1111111111111111111");
         Sleep(600);
     }
 }
@@ -1239,7 +1240,7 @@ int MonitorTaskInit(void)
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
-    SysCreateTask(Yinpinguoqi, NULL);//播放音频的任务
+    SysCreateTask(Yinpinguoqi, NULL);//设置音频过期
 //    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
 //    SysCreateTask(Chongqi, NULL);//重新启动的任务
 //    SysCreateTask(ShezhiSn, NULL);//音量增减功能
