@@ -916,6 +916,20 @@ static int Kaishizhendong()
     currentButtonState = 1;
     return 0;
 }
+static int Bofangcishu()
+{
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    //音频有效，则循环播放音频文件
+    sprintf(cmd,"madplay /tmp/mounts/SD-P1/play/shock.mp3 -r &");
+    system(cmd);
+    Sleep(50);
+    //切换音频播放开关
+    gpio_set_value(GPIO_39,0);
+    gpio_set_value(GPIO_42,0);
+    currentButtonState = 1;
+    return 0;
+}
 //更新音频播放记录和统计播放时长，存入文件中，在设备登录后用于上传工作参数
 static void *GengxinBofangShijian(void *arg)
 {
@@ -972,7 +986,6 @@ static void *BofangYinpin(void *arg)
     while (1) {
         char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
         if(access(lujing,F_OK)==0){
-
             Yinpinguoqi(lujing);
             sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/2.wav  &");
             system(cmd);
@@ -1133,75 +1146,12 @@ static void *Yinliangzengjian(void *arg)
 static void *Chmodzhixing(void *arg){
     char cmd[512] = {0};
     memset(cmd,0,512);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/checkwifi");
+    sprintf(cmd,"chmod +x /www/cgi-bin/*");
     system(cmd);
     Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/diswifi");
+    sprintf(cmd,"chmod +x /opt/work/*");
     system(cmd);
     Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/getssid");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/huoqubianma");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/luci");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/setpass");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/setwifi");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /www/cgi-bin/shezhi");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/download.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/ftup.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/macdizhi.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/musicdownload.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/shangchuansn.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/smarthome.out");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/startup.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/unzipmusic.sh");
-    system(cmd);
-    Sleep(15);
-
-    sprintf(cmd,"chmod +x /opt/work/update.txt");
-    system(cmd);
-    Sleep(15);
-
 }
 
 static void *XiazaiYinpin(void *arg){
@@ -1279,16 +1229,16 @@ int MonitorTaskInit(void)
     RunStateInit();
     currentButtonState=0;
 //    SysCreateTask(PlayTask_Pressdown, NULL);//音频播放键按下时任务
-    SysCreateTask(Chongqi, NULL);//重新启动的任务
     SysCreateTask(Chmodzhixing, NULL);//播放音频的任务
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
-    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
-    SysCreateTask(ShezhiSn, NULL);//音量增减功能
-    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
-    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
-    //AlarmInit();//初始化时间文件alm不要了，用uci 来set
+    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
+//    SysCreateTask(Chongqi, NULL);//重新启动的任务
+//    SysCreateTask(ShezhiSn, NULL);//音量增减功能
+//    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
+//    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
+//    AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
 //    SysCreateTask(UpdateAlarmTask_Monitor, NULL);//更新播放时间
 //    SysCreateTask(DownLoadMusicTask_Monitor, NULL);//音乐下载，内部有协议通信方法
