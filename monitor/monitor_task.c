@@ -889,9 +889,9 @@ static void uciuse(){
     char needstr[100]={0};
 
     char *canshu[]={
-        "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",
-        "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",
-        "2222"
+        "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",//0
+        "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",//1
+        "2222"//2
     };
 
     const char *varsn="sn";
@@ -902,8 +902,8 @@ static void uciuse(){
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"sncishu-----:%s\n",needstr);
 
-    PrintLog(0,"setting cishu-----:%s\n",canshu[2]);
-    setuci(varcishu,canshu[2],canshu[1]);
+//    PrintLog(0,"setting cishu-----:%s\n",canshu[2]);
+//    setuci(varcishu,canshu[2],canshu[1]);
 
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
