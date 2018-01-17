@@ -894,8 +894,8 @@ static void uciuse(){
         "2222"
     };
 
-    const char *snvarname="sn";
-    getuci(snvarname,needstr,canshu[0]);
+    const char *varsn="sn";
+    getuci(varsn,needstr,canshu[0]);
     PrintLog(0,"snclz-----:%s",needstr);
 
     const char *varcishu="cishu";
