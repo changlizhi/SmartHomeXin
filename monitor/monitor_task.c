@@ -874,11 +874,12 @@ static void *VolumeBtn_Pressdown(void *arg)
     return 0;
 }
 static void trans(long sec){
-	long hour,min;
+	long hour,min,day;
+	day=sec/3600*24;     //计算时 3600进制
 	hour=sec/3600;     //计算时 3600进制
 	min=(sec%3600)/60;   //计算分  60进制
 	sec=(sec%3600)%60;   //计算秒  余下的全为秒数
-	PrintLog(0,"%ld XIAOSHI:%ld FEN:%ld MIAO\n",hour,min,sec);
+	PrintLog(0,"shijian-----%ld Tian:%ld XIAOSHI:%ld FEN:%ld MIAO\n",day,hour,min,sec);
 }
 
 static void *Yinpinguoqi(void *arg){
