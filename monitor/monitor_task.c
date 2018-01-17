@@ -903,9 +903,9 @@ static void uciuse(){
     PrintLog(0,"sncishu-----:%s\n",needstr);
 
     PrintLog(0,"setting cishu-----:%s\n",canshu[2]);
-    setuci(varcishu,canshu[2],canshu[2]);
+    setuci(varcishu,canshu[2],canshu[1]);
 
-    getuci(varcishu,needstr,canshu[2]);
+    getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"sncishu2222-----afterset:%s\n",needstr);
 }
 
