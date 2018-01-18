@@ -905,14 +905,18 @@ static void uciuse(){
     int cs = atoi(needstr);
     PrintLog(0,"before-set-sncishu-int-----:%d\n",cs);
 
-    if(cs > 6){//如果播放次数大于600则删除音频
+    if(cs > 50){//如果播放次数大于130则删除音频
         char cmd[512] = {0};
         memset(cmd,0,512);
         PrintLog(0,"shanchu shock.mp3\n");
         sprintf(cmd,"rm -rf /tmp/mounts/SD-P1/play/shock.mp3");
         system(cmd);
         Sleep(50);
-    }else{//如果不大于则uci set
+    } else {//如果不大于则uci set
+        if(cs > 100){
+            PlayVoice("5.wav",0);
+            Sleep(50);
+        }
         cs ++;
         sprintf(canshu[3], "%d", cs);
         PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
@@ -1050,7 +1054,7 @@ static void *BofangYinpin(void *arg)
         else
         {
             //无音频文件，播放提示音
-            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/1.wav  &");
+            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/6.wav  &");
             system(cmd);
             Sleep(600);
             gpio_set_value(GPIO_39,1);
