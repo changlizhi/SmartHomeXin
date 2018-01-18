@@ -888,8 +888,8 @@ static void trans(long sec){
 }
 
 static void cishushixiao(){
-
-    char needstr[100]={0};
+    //startup.sh中启动时会执行一次
+    char needstr[100]={""};
 
     char *canshu[]={
         "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",//0
@@ -898,42 +898,25 @@ static void cishushixiao(){
         "0"//3
     };
 
-    const char *varsn="sn";
-    getuci(varsn,needstr,canshu[0]);
-    PrintLog(0,"snclz-----:%s",needstr);
-
     const char *varcishu="cishu";
     getuci(varcishu,needstr,canshu[1]);
-    PrintLog(0,"before-set-sncishu-----:%s\n",needstr);
-    int cs = atoi(needstr);
-    char csstr[] = {""};
-    PrintLog(0,"before-set-sncishu-int-----:%d\n",cs);
+    PrintLog(0,"cishu-----:%s\n",needstr);
 
+    char cmd[512] = {0};
+    memset(cmd,0,512);
+    if(cs > 3){//测试用3
+        sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/5.wav  &");
+        system(cmd);
+        Sleep(50);
+        gpio_set_value(GPIO_39,1);
+        gpio_set_value(GPIO_42,1);
+    }
     if(cs > 5){//如果播放次数大于130则删除音频，测试用5次
-        char cmd[512] = {0};
-        memset(cmd,0,512);
         PrintLog(0,"shanchu shock.mp3\n");
         sprintf(cmd,"rm -rf /tmp/mounts/SD-P1/play/shock.mp3");
         system(cmd);
         Sleep(50);
     }
-    else {//如果不大于则uci set
-        if(cs > 3){//测试用3
-            PlayVoice("5.wav",0);
-            Sleep(50);
-        }
-        cs ++;
-        sprintf(csstr,"%d",cs);
-
-        PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
-        PrintLog(0,"setting csstr-----:%s\n",csstr);
-
-        setuci(varcishu,csstr,canshu[2]);
-    }
-
-    getuci(varcishu,needstr,canshu[1]);
-    PrintLog(0,"after-set-sncishu-----:%s\n",needstr);
-
 }
 
 static void *Yinpinguoqi(void *arg){
@@ -971,6 +954,9 @@ static int Kaishizhendong()
     char cmd[512] = {0};
     memset(cmd,0,512);
     //音频有效，则循环播放音频文件
+    sprintf(cmd,"ash /opt/work/zengjiacishu.sh");//播放前增加一次次数
+    system(cmd);
+    Sleep(50);
     sprintf(cmd,"madplay /tmp/mounts/SD-P1/play/shock.mp3 -r &");
     system(cmd);
     Sleep(50);
