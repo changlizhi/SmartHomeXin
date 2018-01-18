@@ -906,6 +906,7 @@ static void uciuse(){
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"before-set-sncishu-----:%s\n",needstr);
     int cs = atoi(needstr);
+    char csstr[] = {""};
     PrintLog(0,"before-set-sncishu-int-----:%d\n",cs);
 
     if(cs > 50){//如果播放次数大于130则删除音频
@@ -916,17 +917,19 @@ static void uciuse(){
         system(cmd);
         Sleep(50);
     }
-//    else {//如果不大于则uci set
-//        if(cs > 40){
-//            PlayVoice("5.wav",0);
-//            Sleep(50);
-//        }
+    else {//如果不大于则uci set
+        if(cs > 40){
+            PlayVoice("5.wav",0);
+            Sleep(50);
+        }
         cs ++;
-        itoa(cs,canshu[3]);
+        sprintf(csstr,"%d",cs);
+
         PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
-        PrintLog(0,"setting cs-----:%d\n",cs);
-//        setuci(varcishu,canshu[3],canshu[2]);
-//    }
+        PrintLog(0,"setting csstr-----:%s\n",csstr);
+
+        setuci(varcishu,csstr,canshu[2]);
+    }
 
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"after-set-sncishu-----:%s\n",needstr);
