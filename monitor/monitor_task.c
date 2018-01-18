@@ -24,6 +24,7 @@
 #include <sys/errno.h>
 #include <poll.h>
 #include <sys/stat.h>
+#include "include/lib/datachg.h"
 
 #include "include/basetype.h"
 #include "include/debug/shellcmd.h"
@@ -332,6 +333,8 @@ extern int  setuci(const char *varname, char *buffer,char *mingling);
 extern int  getuciConfigvar(const char *varname, char *buffer);
 extern int  setuciConfigvar(const char *varname, char *buffer);
 extern void MakeAlarmG(alarm_buf_t *pbuf);
+extern void itoa(int i, char *str);
+
 extern void SaveAlarm(alarm_buf_t *pbuf);
 extern void UpdateAlarm(alarm_buf_t *pbuf);
 extern alarm_buf_t * GetCurrentAlarm();
@@ -919,7 +922,7 @@ static void uciuse(){
 //            Sleep(50);
 //        }
         cs ++;
-        sprintf(canshu[3], "%d", cs);
+        itoa(cs,canshu[3]);
         PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
         PrintLog(0,"setting cs-----:%d\n",cs);
 //        setuci(varcishu,canshu[3],canshu[2]);
