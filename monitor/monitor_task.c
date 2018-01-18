@@ -905,12 +905,13 @@ static void cishushixiao(){
     char cmd[512] = {0};
     memset(cmd,0,512);
     int cs = atoi(needstr);
-    if(cs > 3){//测试用3
+    if(cs > 3 && cs <= 5){//测试用3
         sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/5.wav  &");
         system(cmd);
         Sleep(50);
         gpio_set_value(GPIO_39,1);
         gpio_set_value(GPIO_42,1);
+        Sleep(1000);//等待10秒读文字
     }
     if(cs > 5){//如果播放次数大于130则删除音频，测试用5次
         PrintLog(0,"shanchu shock.mp3\n");
@@ -1035,6 +1036,7 @@ static void *BofangYinpin(void *arg)
     char cmd[512] = {0};
     memset(cmd,0,512);
     cishushixiao();//在播放之前进行检测是否达到播放次数，达到则删除音频
+    Sleep(600);
     while (1) {
         char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
         if(access(lujing,F_OK)==0){
@@ -1050,7 +1052,7 @@ static void *BofangYinpin(void *arg)
         else
         {
             //无音频文件，播放提示音
-            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/6.wav  &");
+            sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/6.wav &");
             system(cmd);
             Sleep(600);
             gpio_set_value(GPIO_39,1);
