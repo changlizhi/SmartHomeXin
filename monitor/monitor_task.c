@@ -887,7 +887,7 @@ static void trans(long sec){
 	PrintLog(0,"shijian-----%ld Tian:%ld XIAOSHI:%ld FEN:%ld MIAO\n",day,hour,min,sec);
 }
 
-static void uciuse(){
+static void cishushixiao(){
 
     char needstr[100]={0};
 
@@ -909,7 +909,7 @@ static void uciuse(){
     char csstr[] = {""};
     PrintLog(0,"before-set-sncishu-int-----:%d\n",cs);
 
-    if(cs > 50){//如果播放次数大于130则删除音频
+    if(cs > 5){//如果播放次数大于130则删除音频，测试用5次
         char cmd[512] = {0};
         memset(cmd,0,512);
         PrintLog(0,"shanchu shock.mp3\n");
@@ -918,7 +918,7 @@ static void uciuse(){
         Sleep(50);
     }
     else {//如果不大于则uci set
-        if(cs > 40){
+        if(cs > 3){//测试用3
             PlayVoice("5.wav",0);
             Sleep(50);
         }
@@ -1047,6 +1047,7 @@ static void *BofangYinpin(void *arg)
     gpio_set_edge(GPIO_PLAY, "rising");
     char cmd[512] = {0};
     memset(cmd,0,512);
+    cishushixiao();//在播放之前进行检测是否达到播放次数，达到则删除音频
     while (1) {
         char *lujing = "/tmp/mounts/SD-P1/play/shock.mp3";
         if(access(lujing,F_OK)==0){
@@ -1296,8 +1297,8 @@ int MonitorTaskInit(void)
     SysCreateTask(BofangYinpin, NULL);//播放音频的任务
     SysCreateTask(Bofangzanting, NULL);//播放暂停功能
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
-    SysCreateTask(Yinpinguoqi, NULL);//设置音频过期
     SysCreateTask(Chongqi, NULL);//重新启动的任务
+//    SysCreateTask(Yinpinguoqi, NULL);//设置音频过期，等时钟芯片做好之后再做
 //    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
 //    SysCreateTask(ShezhiSn, NULL);//音量增减功能
 //    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
