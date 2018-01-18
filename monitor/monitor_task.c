@@ -912,16 +912,17 @@ static void uciuse(){
         sprintf(cmd,"rm -rf /tmp/mounts/SD-P1/play/shock.mp3");
         system(cmd);
         Sleep(50);
-    } else {//如果不大于则uci set
-        if(cs > 100){
-            PlayVoice("5.wav",0);
-            Sleep(50);
-        }
+    }
+//    else {//如果不大于则uci set
+//        if(cs > 40){
+//            PlayVoice("5.wav",0);
+//            Sleep(50);
+//        }
         cs ++;
         sprintf(canshu[3], "%d", cs);
         PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
-        setuci(varcishu,canshu[3],canshu[2]);
-    }
+//        setuci(varcishu,canshu[3],canshu[2]);
+//    }
 
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"after-set-sncishu-----:%s\n",needstr);
