@@ -919,7 +919,7 @@ static void uciuse(){
 //            Sleep(50);
 //        }
         cs ++;
-//        sprintf(canshu[3], "%d", cs);
+        sprintf(canshu[3], "%d", cs);
         PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
         PrintLog(0,"setting cs-----:%d\n",cs);
 //        setuci(varcishu,canshu[3],canshu[2]);
