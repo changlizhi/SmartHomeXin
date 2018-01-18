@@ -904,6 +904,7 @@ static void cishushixiao(){
 
     char cmd[512] = {0};
     memset(cmd,0,512);
+    int cs = atoi(needstr);
     if(cs > 3){//测试用3
         sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/5.wav  &");
         system(cmd);
