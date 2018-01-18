@@ -892,7 +892,7 @@ static void uciuse(){
         "uci -c/opt/ft get ftconfig.@ftconfig[0].%s 2>&1",//0
         "uci -c/opt/ft get bofangcishu.@bofangcishu[0].%s 2>&1",//1
         "uci -c/opt/ft set bofangcishu.@bofangcishu[0].%s=%s",//2
-        "2222"//3
+        "0"//3
     };
 
     const char *varsn="sn";
@@ -902,12 +902,26 @@ static void uciuse(){
     const char *varcishu="cishu";
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"before-set-sncishu-----:%s\n",needstr);
+    int cs = atoi(needstr);
+    PrintLog(0,"before-set-sncishu-int-----:%d\n",cs);
 
-    PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
-    setuci(varcishu,canshu[3],canshu[2]);
+    if(cs > 6){//如果播放次数大于600则删除音频
+        char cmd[512] = {0};
+        memset(cmd,0,512);
+        PrintLog(0,"shanchu shock.mp3\n");
+        sprintf(cmd,"rm -rf /tmp/mounts/SD-P1/play/shock.mp3");
+        system(cmd);
+        Sleep(50);
+    }else{//如果不大于则uci set
+        cs ++;
+        sprintf(canshu[3], "%d", cs);
+        PrintLog(0,"setting cishu-----:%s\n",canshu[3]);
+        setuci(varcishu,canshu[3],canshu[2]);
+    }
 
     getuci(varcishu,needstr,canshu[1]);
     PrintLog(0,"after-set-sncishu-----:%s\n",needstr);
+
 }
 
 static void *Yinpinguoqi(void *arg){
