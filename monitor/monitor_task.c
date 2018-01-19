@@ -1305,7 +1305,7 @@ int MonitorTaskInit(void)
     SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
     SysCreateTask(ShezhiSn, NULL);//设置sn
     SysCreateTask(Gengxinmima, NULL);//更新密码
-//    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
+    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
 //    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
 //    AlarmInit();//初始化时间文件alm不要了，用uci 来set
 //    SysCreateTask(UpdateSystemTask_Monitor, NULL);//系统更新任务
