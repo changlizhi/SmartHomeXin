@@ -1279,6 +1279,21 @@ static void *Chongqi(void *arg){
         if(x > 60000){//十分钟重启
             char cmd[512] = {0};
             memset(cmd,0,512);
+            sprintf(cmd,"killall -9 smarthome.out");
+            system(cmd);
+
+        Sleep(100);//线程睡眠1秒
+            memset(cmd,0,512);
+            sprintf(cmd,"killall -9 madplay");
+            system(cmd);
+
+        Sleep(100);//线程睡眠1秒
+            memset(cmd,0,512);
+            sprintf(cmd,"wifi down");
+            system(cmd);
+
+        Sleep(100);//线程睡眠1秒
+            memset(cmd,0,512);
             sprintf(cmd,"reboot");
             system(cmd);
             break;
