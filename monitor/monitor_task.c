@@ -1215,11 +1215,22 @@ static void *XiazaiYinpin(void *arg){
 }
 
 static void *ShezhiSn(void *arg){
-    char cmd[512] = {0};
-    memset(cmd,0,512);
-    sprintf(cmd,"ash /opt/work/macdizhi.sh");
-    system(cmd);
-    Sleep(15);
+    while(1){
+        char cmd[512] = {0};
+        memset(cmd,0,512);
+        sprintf(cmd,"ash /opt/work/macdizhi.sh");
+        system(cmd);
+        Sleep(600);
+    }
+}
+static void *Gengxinmima(void *arg){
+    while(1){
+        char cmd[512] = {0};
+        memset(cmd,0,512);
+        sprintf(cmd,"ash /opt/work/gengxinmima.sh");
+        system(cmd);
+        Sleep(600);
+    }
 }
 
 //识别网络是否成功然后上传
@@ -1265,7 +1276,7 @@ static void *Chongxinshaolu(void *arg){
 static void *Chongqi(void *arg){
     int x=0;
     while(1){
-        if(x > 4320000){
+        if(x > 60000){//十分钟重启
             char cmd[512] = {0};
             memset(cmd,0,512);
             sprintf(cmd,"reboot");
@@ -1291,8 +1302,9 @@ int MonitorTaskInit(void)
     SysCreateTask(Yinliangzengjian, NULL);//音量增减功能
     SysCreateTask(Chongqi, NULL);//重新启动的任务
 //    SysCreateTask(Yinpinguoqi, NULL);//设置音频过期，等时钟芯片做好之后再做
-//    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
-//    SysCreateTask(ShezhiSn, NULL);//音量增减功能
+    SysCreateTask(GengxinBofangShijian, NULL);//播放音频的任务
+    SysCreateTask(ShezhiSn, NULL);//设置sn
+    SysCreateTask(Gengxinmima, NULL);//更新密码
 //    SysCreateTask(ShangchuanShuju, NULL);//上传sn的功能
 //    SysCreateTask(XiazaiYinpin, NULL);//上传sn的功能
 //    AlarmInit();//初始化时间文件alm不要了，用uci 来set
