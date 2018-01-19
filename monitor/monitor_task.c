@@ -1021,6 +1021,9 @@ static void *GengxinBofangShijian(void *arg)
 
             sprintf(dangqianshijian,"uci -c/opt/ft commit");
             system(dangqianshijian);
+            Sleep(10);
+            sprintf(dangqianshijian,"ash /opt/work/scbofangshijian.sh");//进行上传
+            system(dangqianshijian);
         }
         Sleep(600);//每6秒监测一次
     }
