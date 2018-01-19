@@ -72,7 +72,7 @@ int post(char *ip,int port,char *page,char *msg,char *recvline){
     char content_page[50];
     sprintf(content_page,"POST /%s HTTP/1.1\r\n",page);
     char content_host[50];
-    sprintf(content_host,"HOST: %s:%d\r\n",ip,port);
+    sprintf(content_host,"HOST: %s\r\n",ip);
 
     char content_type[] = "Content-Type: application/x-www-form-urlencoded\r\n";
     char content_len[50];
@@ -1238,9 +1238,9 @@ static void *ShangchuanShuju(void *arg){
     //识别网络是否成功然后上传
     while(1){
         PrintLog(0,"kaishi qingqiu lianwang!!!\n");
-        Sleep(600);
+        Sleep(1200);
         char msg[] = "Ceshilianwang=ceshi";
-        char ip[] = "192.168.88.186";
+        char ip[] = "kzq.amchis.com";
         int port = 8989;
         char page[] = "sn/ceshilianwang";
         char recvline[1024];
