@@ -905,7 +905,14 @@ static void cishushixiao(){
     char cmd[512] = {0};
     memset(cmd,0,512);
     int cs = atoi(needstr);
-    if(cs > 3 && cs <= 5){//测试用3
+    if(cs % 7 == 0){
+        sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/5.wav  &");//提示更新数据
+        system(cmd);
+        Sleep(50);
+        gpio_set_value(GPIO_39,1);
+        gpio_set_value(GPIO_42,1);
+        Sleep(1000);//等待10秒读文字
+    }else if(cs > 100 && cs <= 130){//测试用3
         sprintf(cmd,"aplay /tmp/mounts/SD-P1/voice/5.wav  &");
         system(cmd);
         Sleep(50);
@@ -913,7 +920,7 @@ static void cishushixiao(){
         gpio_set_value(GPIO_42,1);
         Sleep(1000);//等待10秒读文字
     }
-    if(cs > 5){//如果播放次数大于130则删除音频，测试用5次
+    if(cs > 130){//如果播放次数大于130则删除音频，测试用5次
         PrintLog(0,"shanchu shock.mp3\n");
         sprintf(cmd,"rm -rf /tmp/mounts/SD-P1/play/shock.mp3");
         system(cmd);
@@ -1276,7 +1283,7 @@ static void *Chongxinshaolu(void *arg){
 static void *Chongqi(void *arg){
     int x=0;
     while(1){
-        if(x > 60000){//十分钟重启
+        if(x > 6000000){//一千分钟重启
             char cmd[512] = {0};
             memset(cmd,0,512);
             sprintf(cmd,"killall -9 smarthome.out");
