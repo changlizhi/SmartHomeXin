@@ -1036,7 +1036,72 @@ static void *GengxinBofangShijian(void *arg)
     }
     return 0;
 }
+/*
+ *函数红能：音频更新下载
+ *功能描述：主要通过getuci()获取资源网站和资源具体位置两条信息，
+ *			通过base64_decode()转码，再将两条信息合并成完整的资源地址，
+ *			作为参数传给shockdownload.sh脚本，脚本里完成更新识别、下载、解压等功能。
+ */
+static int shockdownload()
+{
+	char cmd[512] = {0};
 
+	char url[100]={0};
+	char url1[100]={0};
+	char url2[100]={0};
+
+	char *canshu[]={
+        "uci -c/opt/ft get gengxinyinpin.@gengxinyinpin[0].%s 2>&1"
+    };
+
+	/*获取下载网站*/
+	char needstr2[100]={0};
+	const char *wangzhan="wangzhan";
+	getuci(wangzhan,needstr2,canshu[0]);
+    PrintLog(0,"xugengxin-----:%s\n",needstr2);
+
+	/*获取下载文件具体位置*/
+	char needstr3[100]={0};
+	const char *weizhi="weizhi";
+	getuci(weizhi,needstr3,canshu[0]);
+    PrintLog(0,"weizhi-----:%s\n",needstr3);
+
+	/*转码*/
+	base64_decode(needstr2, url1);		// kzq.amchis.com
+	PrintLog(0,"url1-----:%s\n",url1);
+	base64_decode(needstr3, url2);		// /jingtais/shock.zip
+	PrintLog(0,"url2-----:%s\n",url2);
+
+	/*合成完整的资源地址:http://kzq.amchis.com/jingtais/shock.zip*/
+	sprintf(url,"http://%s%s",url1,url2);
+	PrintLog(0,"url-----:%s\n",url);
+
+	/*判断是否联网
+	PrintLog(0,"kaishi qingqiu lianwang!!!\n");
+    Sleep(600);
+    char msg[] = "Ceshilianwang=ceshi";
+    char ip[] = "192.168.88.186";
+    int port = 8989;
+    char page[] = "sn/ceshilianwang";
+    char recvline[1024]={0};
+    int cg = post(ip,port,page,msg,recvline);
+    if(cg == 0)
+	{
+		PrintLog(0,"recvline---%s\n",recvline);
+		memset(cmd,0,512);
+		sprintf(cmd,"sh /opt/work/shockdownload.sh %s",url);
+		system(cmd);
+	}
+	else{
+		PrintLog(0,"connect failed---recvline---%s\n",recvline);
+	}*/
+
+	memset(cmd,0,512);
+	sprintf(cmd,"sh /opt/work/shockdownload.sh %s",url);
+	system(cmd);
+
+	return 0;
+}
 
 static void *BofangYinpin(void *arg)
 {
